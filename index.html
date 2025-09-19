@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fulfillment Center Training Game</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
+
+        :root {
+            --primary-color: #FF9900;
+            --secondary-color: #232F3E;
+            --background-gradient: linear-gradient(135deg, #232F3E 0%, #FF9900 100%);
+            --text-color: #333;
+            --card-bg: white;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-gradient);
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Welcome screen */
+        #welcome-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 20px;
+            user-select: none;
+            text-align: center;
+        }
+
+        #welcome-logo {
+            font-size: 5em;
+            margin-bottom: 10px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        #welcome-title {
+            font-size: clamp(2em, 5vw, 3.5em);
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-10px);
+            }
+        }
+
+        #user-name-input {
+            border-radius: 25px;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.2em;
+            width: 280px;
+            max-width: 90vw;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: var(--secondary-color);
+            font-weight: bold;
+            outline: none;
+            text-align: center;
+            transition: box-shadow 0.3s ease;
+        }
+
+        #user-name-input:focus {
+            box-shadow: 0 0 0 4px rgba(255, 153, 0, 0.5);
+        }
+
+        #submit-name-btn {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        #submit-name-btn:hover {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(255, 153, 0, 0.6);
+        }
+
+        /* Game container hidden initially */
+        #game-container {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .header {
+            text-align: center;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            border: 3px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 153, 0, 0.1);
+            border-radius: 50%;
+            transform: rotate(25deg);
+        }
+
+        .header h1 {
+            color: var(--secondary-color);
+            font-size: clamp(1.8em, 4vw, 2.8em);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: clamp(1em, 2vw, 1.2em);
+            position: relative;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .game-title {
+            font-size: clamp(1.5em, 3vw, 1.8em);
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            user-select: none;
+            font-weight: 700;
+        }
+
+        #leaderboard-button {
+            background: var(--primary-color);
+            border: none;
+            color: var(--secondary-color);
+            font-weight: 700;
+            font-size: 1em;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 153, 0, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        #leaderboard-button:hover {
+            background: #e6850e;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .stats-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            user-select: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: clamp(1.8em, 4vw, 2.5em);
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .game-area {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .difficulty-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .difficulty-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            user-select: none;
+            font-size: 0.9em;
+        }
+
+        .difficulty-btn.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 153, 0, 0.4);
+            transform: scale(1.05);
+        }
+
+        .instruction-panel {
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            user-select: none;
+            color: #666;
+        }
+
+        .instruction-panel h3 {
+            color: #E65100;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        ul li {
+            margin-bottom: 7px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .stowing-area {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .conveyor-belt {
+            background: linear-gradient(90deg, #444 0%, #666 50%, #444 100%);
+            height: 120px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #333;
+        }
+
+        .product-item {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            color: #333;
+            min-width: 200px;
+            animation-name: moveConveyor;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes moveConveyor {
+            from {
+                left: -250px;
+            }
+
+            to {
+                left: 100%;
+            }
+        }
+
+        .product-emoji {
+            font-size: 2em;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 1.1em;
+            margin-bottom: 3px;
+            user-select: none;
+        }
+
+        .product-id {
+            font-size: 0.8em;
+            color: #666;
+            user-select: none;
+        }
+
+        .pod-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .pod {
+            display: grid;
+            grid-template-columns: repeat(4, 90px);
+            grid-template-rows: repeat(6, 70px);
+            gap: 3px;
+            background: var(--secondary-color);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            user-select: none;
+        }
+
+        .bin {
+            background: #f8f9fa;
+            border: 3px solid #dee2e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 8px;
+            user-select: none;
+        }
+
+        .bin:hover {
+            background: #e9ecef;
+            transform: scale(1.05);
+            border-color: var(--primary-color);
+        }
+
+        .bin.occupied {
+            background: #E3F2FD;
+            border-color: #2196F3;
+            color: #1976D2;
+        }
+
+        .bin.target {
+            background: #FFF3E0;
+            border-color: var(--primary-color);
+            color: #F57C00;
+            animation: targetPulse 1.5s ease-in-out infinite;
+        }
+
+        .bin.correct {
+            background: #E8F5E8;
+            border-color: #4CAF50;
+            color: #2E7D32;
+            animation: successPulse 0.6s ease;
+        }
+
+        .bin.incorrect {
+            background: #FFEBEE;
+            border-color: #f44336;
+            color: #C62828;
+            animation: errorShake 0.6s ease;
+        }
+
+        @keyframes targetPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 153, 0, 0.7);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(255, 153, 0, 0);
+            }
+        }
+
+        @keyframes successPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes errorShake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-8px);
+            }
+
+            75% {
+                transform: translateX(8px);
+            }
+        }
+
+        .bin-label {
+            font-size: 0.8em;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        .bin-content {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            user-select: none;
+        }
+
+        .timer-display {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--secondary-color);
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid var(--primary-color);
+            text-align: center;
+            user-select: none;
+        }
+
+        .combo-display {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #4CAF50;
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 2em;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            animation: comboAnimation 1s ease-out;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        @keyframes comboAnimation {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .achievement-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transform: translateX(100%);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+            max-width: 300px;
+            user-select: none;
+        }
+
+        .achievement-popup.show {
+            transform: translateX(0);
+        }
+
+        .achievement-popup h4 {
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        #leaderboard-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(255, 153, 0, 0.7);
+            border-radius: 20px;
+            padding: 30px 40px;
+            max-width: 700px;
+            width: 95%;
+            max-height: 85vh;
+            overflow-y: auto;
+            z-index: 1100;
+            color: var(--secondary-color);
+            display: none;
+            user-select: none;
+        }
+
+        #leaderboard-screen h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-weight: 900;
+            font-size: clamp(1.8em, 4vw, 2.2em);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        #leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1em;
+        }
+
+        #leaderboard-table th,
+        #leaderboard-table td {
+            padding: 12px 15px;
+            border-bottom: 2px solid var(--primary-color);
+            text-align: center;
+        }
+
+        #leaderboard-table th {
+            background: var(--primary-color);
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        #leaderboard-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #leaderboard-table tr:hover {
+            background: #FFF3E0;
+            cursor: default;
+        }
+
+        #leaderboard-table tr:first-child td {
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+        }
+        
+        #leaderboard-back-btn {
+            margin-top: 25px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 6px 25px rgba(255, 153, 0, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        #leaderboard-back-btn:hover {
+            background: #e6850e;
+            transform: translateY(-3px);
+        }
+
+        /* Level complete popup */
+        #level-complete-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            padding: 30px 40px;
+            z-index: 2000;
+            width: 320px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #level-complete-popup p {
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        #level-complete-popup button {
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        #btn-try-next {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 153, 0, 0.4);
+        }
+
+        #btn-exit {
+            background: #6c757d;
+            color: white;
+            margin-right: 0;
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.4);
+        }
+
+        #level-complete-popup button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .stowing-area {
+                grid-template-columns: 1fr;
+            }
+
+            .pod {
+                grid-template-columns: repeat(4, 70px);
+                grid-template-rows: repeat(6, 55px);
+            }
+
+            .game-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #user-name-input {
+                width: 90%;
+            }
+
+            #level-complete-popup {
+                width: 90vw;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .stat-number {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="welcome-screen" role="main" aria-label="Welcome to Fulfillment Center Training Game">
+        <div id="welcome-logo" aria-hidden="true">📦</div>
+        <div id="welcome-title">Stowing Master</div>
+        <input id="user-name-input" type="text" placeholder="Enter your name" aria-label="Enter your name" autocomplete="off" />
+        <button id="submit-name-btn" aria-label="Submit name and start game">Submit</button>
+    </div>
+
+    <div id="game-container" role="main" aria-label="Fulfillment Center Training Game Interface">
+        <div class="header">
+            <h1>📦 Fulfillment Center Stowing Master</h1>
+            <p>Train to become an expert Warehouse Associate</p>
+        </div>
+
+        <div class="game-header">
+            <div class="game-title">🎯 Stowing Challenge</div>
+            <button id="leaderboard-button" aria-label="View leaderboard">Leaderboard</button>
+        </div>
+
+        <div class="stats-dashboard" aria-live="polite" aria-atomic="true">
+            <div class="stat-card">
+                <div class="stat-number" id="total-score">0</div>
+                <div class="stat-label">Total Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="accuracy">100%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="items-stowed">0</div>
+                <div class="stat-label">Items Stowed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="best-combo">0</div>
+                <div class="stat-label">Best Combo</div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="difficulty-selector" role="radiogroup" aria-label="Select difficulty level">
+                <button class="difficulty-btn active" aria-pressed="true" onclick="setDifficulty('easy')" role="radio"
+                    aria-checked="true" id="easy-btn">Easy</button>
+                <button class="difficulty-btn" aria-pressed="false" onclick="setDifficulty('medium')" role="radio"
+                    aria-checked="false" id="medium-btn">Medium</button>
+                <button class="difficulty-btn" aria-pressed="false" onclick="setDifficulty('complex')" role="radio"
+                    aria-checked="false" id="complex-btn">Complex</button>
+            </div>
+
+            <div class="instruction-panel">
+                <h3 id="current-instruction">🚀 Click START to begin your shift or TRY DEMO to practice!</h3>
+                <div id="game-instructions" style="margin-top: 15px; display: block;">
+                    <h4 style="color: #E65100; margin-bottom: 10px;">📋 How to Play:</h4>
+                    <ul>
+                        <li><strong>Watch the Conveyor:</strong> Products will move across the belt showing their name
+                            and SKU code</li>
+                        <li><strong>Find the Target Bin:</strong> The correct storage bin will be highlighted in orange
+                            and pulsing</li>
+                        <li><strong>Click to Stow:</strong> Click the highlighted bin to store the product correctly
+                        </li>
+                        <li><strong>Build Combos:</strong> Consecutive correct stows increase your score multiplier
+                        </li>
+                        <li><strong>Demo Mode:</strong> Practice without affecting your scores - perfect for learning!
+                        </li>
+                        <li><strong>Challenge Mode:</strong> Complete 5 challenges per difficulty level to earn points
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stowing-area">
+                <div>
+                    <div class="conveyor-belt" id="conveyor-belt" aria-live="polite" aria-atomic="true"
+                        aria-relevant="additions"></div>
+                    <div class="timer-display" id="timer-display" aria-live="polite" aria-atomic="true">Ready to Start
+                    </div>
+                </div>
+
+                <div class="pod-container" aria-label="Storage bins">
+                    <div class="pod" id="main-pod"></div>
+                </div>
+            </div>
+
+            <div class="game-controls" role="group" aria-label="Game controls">
+                <button class="btn" id="start-btn" onclick="startGame()">🚀 START SHIFT</button>
+                <button class="btn secondary" onclick="pauseGame()" id="pause-btn" disabled>⏸️ PAUSE</button>
+                <button class="btn" id="demo-btn" onclick="startDemo()">🎮 TRY DEMO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="combo-display" id="combo-display" style="display: none;"></div>
+    <div class="achievement-popup" id="achievement-popup" aria-live="assertive" aria-atomic="true" role="alert">
+        <h4 id="achievement-title"></h4>
+        <div id="achievement-text"></div>
+    </div>
+
+    <div id="leaderboard-screen" role="dialog" aria-modal="true" aria-labelledby="leaderboard-title">
+        <h2 id="leaderboard-title">Leaderboard</h2>
+        <table id="leaderboard-table" aria-describedby="leaderboard-desc" role="table"
+            aria-label="Leaderboard showing players scores">
+            <thead>
+                <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Level 1</th>
+                    <th scope="col">Level 2</th>
+                    <th scope="col">Level 3</th>
+                    <th scope="col">Total Score</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body"></tbody>
+        </table>
+        <button id="leaderboard-back-btn" aria-label="Back to game interface">Back</button>
+    </div>
+
+    <div id="level-complete-popup">
+        <p id="popup-message"></p>
+        <button id="btn-try-next">Try Medium Level</button>
+        <button id="btn-exit">Exit</button>
+    </div>
+
+    <script>
+        // Variables for state
+        let userName = '';
+        let productTimer;
+        const products = [
+            { emoji: '📱', name: 'iPhone 15 Pro', id: 'SKU-EL001' },
+            { emoji: '💻', name: 'MacBook Air M2', id: 'SKU-EL002' },
+            { emoji: '🎧', name: 'Wireless Earbuds', id: 'SKU-EL003' },
+            { emoji: '📚', name: 'Atomic Habits Book', id: 'SKU-BK001' },
+            { emoji: '👕', name: 'Athletic T-Shirt', id: 'SKU-CL001' },
+            { emoji: '👟', name: 'Running Shoes', id: 'SKU-SH001' },
+            { emoji: '🧴', name: 'Face Cleanser', id: 'SKU-BT001' },
+            { emoji: '☕', name: 'Coffee Maker', id: 'SKU-KT001' },
+            { emoji: '🎮', name: 'Gaming Controller', id: 'SKU-GM001' },
+            { emoji: '📺', name: 'Streaming Device', id: 'SKU-EL004' },
+            { emoji: '🏠', name: 'Smart Speaker', id: 'SKU-SM001' },
+            { emoji: '🧸', name: 'Teddy Bear Plush', id: 'SKU-TY001' },
+            { emoji: '💊', name: 'Vitamin Gummies', id: 'SKU-HT001' },
+            { emoji: '🔋', name: 'Portable Charger', id: 'SKU-EL005' },
+            { emoji: '🎒', name: 'Travel Backpack', id: 'SKU-BG001' },
+            { emoji: '🍳', name: 'Cast Iron Skillet', id: 'SKU-KT002' },
+            { emoji: '🧽', name: 'Cleaning Sponge', id: 'SKU-CL002' },
+            { emoji: '🕯️', name: 'Scented Candle', id: 'SKU-HM001' },
+            { emoji: '🏋️', name: 'Resistance Bands', id: 'SKU-FT001' },
+            { emoji: '🧊', name: 'Insulated Tumbler', id: 'SKU-DR001' }
+        ];
+        const rows = ['F', 'E', 'D', 'C', 'B', 'A'];
+        const cols = [1, 2, 3, 4];
+        let gameState = {
+            isActive: false,
+            isPaused: false,
+            score: 0,
+            accuracy: 100,
+            itemsStowed: 0,
+            correctStows: 0,
+            totalAttempts: 0,
+            combo: 0,
+            bestCombo: 0,
+            difficulty: 'easy',
+            currentProduct: null,
+            targetBin: null,
+            challengesCompleted: 0,
+            totalChallenges: 5,
+            isDemo: false,
+            levelScores: { easy: 0, medium: 0, complex: 0 }
+        };
+        let leaderboard = [
+            { name: 'Arun', scores: { easy: 55, medium: 70, complex: 60 }, totalScore: 185 },
+            { name: 'Sara', scores: { easy: 75, medium: 65, complex: 45 }, totalScore: 185 },
+            { name: 'Jatin', scores: { easy: 60, medium: 55, complex: 50 }, totalScore: 165 },
+            { name: 'Maya', scores: { easy: 80, medium: 75, complex: 70 }, totalScore: 225 }
+        ];
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const gameContainer = document.getElementById('game-container');
+        const leaderboardScreen = document.getElementById('leaderboard-screen');
+        const leaderboardBody = document.getElementById('leaderboard-body');
+        const leaderboardButton = document.getElementById('leaderboard-button');
+        const leaderboardBackBtn = document.getElementById('leaderboard-back-btn');
+        const userNameInput = document.getElementById('user-name-input');
+        const submitNameBtn = document.getElementById('submit-name-btn');
+
+        const levelCompletePopup = document.getElementById('level-complete-popup');
+        const popupMessage = document.getElementById('popup-message');
+        const btnTryNext = document.getElementById('btn-try-next');
+        const btnExit = document.getElementById('btn-exit');
+
+        // Event handlers
+        submitNameBtn.onclick = () => {
+            const name = userNameInput.value.trim();
+            if (!name) {
+                alert("Please enter your name to start.");
+                userNameInput.focus();
+                return;
+            }
+            userName = name;
+            welcomeScreen.style.display = 'none';
+            gameContainer.style.display = 'block';
+            initializeGame();
+        };
+
+        leaderboardButton.onclick = () => {
+            addOrUpdateLeaderboardEntry();
+            showLeaderboardScreen();
+        };
+
+        leaderboardBackBtn.onclick = () => {
+            closeLeaderboardScreen();
+        };
+
+        btnTryNext.onclick = () => {
+            levelCompletePopup.style.display = 'none';
+            // Move to next level:
+            if (gameState.difficulty === 'easy') setDifficulty('medium');
+            else if (gameState.difficulty === 'medium') setDifficulty('complex');
+            // Reset for new level
+            gameState.isActive = true;
+            gameState.challengesCompleted = 0;
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            gameState.levelScores[gameState.difficulty] = 0;
+            updateStats();
+            document.getElementById('timer-display').textContent = `Challenge 1 of ${gameState.totalChallenges}`;
+            scheduleNextProduct();
+        };
+
+        btnExit.onclick = () => {
+            levelCompletePopup.style.display = 'none';
+            addOrUpdateLeaderboardEntry();
+            showLeaderboardScreen();
+        };
+
+        // Utility functions
+        function capitalize(text) {
+            return text.charAt(0).toUpperCase() + text.slice(1);
+        }
+
+        function initializeGame() {
+            createPod();
+            populateRandomBins();
+            updateStats();
+            document.getElementById('timer-display').textContent = 'Ready to Start';
+            document.getElementById('current-instruction').textContent = '🚀 Click START to begin your shift or TRY DEMO to practice!';
+            document.getElementById('game-instructions').style.display = 'block';
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('pause-btn').disabled = true;
+            document.getElementById('demo-btn').disabled = false;
+            document.getElementById('pause-btn').textContent = '⏸️ PAUSE';
+            setDifficulty('easy');
+        }
+        function createPod() {
+            const pod = document.getElementById('main-pod');
+            pod.innerHTML = '';
+            rows.forEach(r => {
+                cols.forEach(c => {
+                    const bin = document.createElement('div');
+                    bin.className = 'bin';
+                    bin.id = `bin-${r}${c}`;
+                    bin.tabIndex = 0;
+                    bin.setAttribute('role', 'button');
+                    bin.setAttribute('aria-label', `Storage bin ${r}${c}`);
+                    bin.onclick = () => handleBinClick(r + c);
+                    bin.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleBinClick(r + c); } };
+                    const label = document.createElement('div');
+                    label.className = 'bin-label'; label.textContent = r + c;
+                    const content = document.createElement('div');
+                    content.className = 'bin-content';
+                    bin.appendChild(label); bin.appendChild(content);
+                    pod.appendChild(bin);
+                });
+            });
+        }
+        function populateRandomBins() {
+            const bins = document.querySelectorAll('.bin');
+            bins.forEach(bin => { bin.classList.remove('occupied'); bin.querySelector('.bin-content').textContent = ''; });
+            let count = Math.floor(Math.random() * 8) + 4;
+            const selected = Array.from(bins).sort(() => 0.5 - Math.random()).slice(0, count);
+            selected.forEach(bin => {
+                bin.classList.add('occupied');
+                const product = products[Math.floor(Math.random() * products.length)];
+                bin.querySelector('.bin-content').textContent = product.emoji;
+            });
+        }
+        function setDifficulty(level) {
+            gameState.difficulty = level;
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.remove('active'); btn.setAttribute('aria-pressed', 'false'); btn.setAttribute('aria-checked', 'false');
+            });
+            const btn = document.getElementById(level + '-btn');
+            btn.classList.add('active'); btn.setAttribute('aria-pressed', 'true'); btn.setAttribute('aria-checked', 'true');
+            gameState.totalChallenges = 5; gameState.challengesCompleted = 0;
+            if (!gameState.isActive) document.getElementById('timer-display').textContent = `Challenge 1 of 5`;
+        }
+        function startGame() {
+            if (!userName) { alert('Please enter your name before starting the game.'); return; }
+            gameState.isActive = true; gameState.isPaused = false; gameState.isDemo = false; gameState.challengesCompleted = 0;
+            gameState.levelScores[gameState.difficulty] = 0;
+            gameState.score = 0; gameState.accuracy = 100; gameState.itemsStowed = 0;
+            gameState.correctStows = 0; gameState.totalAttempts = 0; gameState.combo = 0; gameState.bestCombo = 0;
+            document.getElementById('start-btn').disabled = true;
+            document.getElementById('pause-btn').disabled = false;
+            document.getElementById('demo-btn').disabled = true;
+            document.getElementById('current-instruction').textContent = '👀 Watch for products on the conveyor belt and stow them in the highlighted bins!';
+            document.getElementById('game-instructions').style.display = 'none';
+            document.getElementById('timer-display').textContent = `Challenge 1 of ${gameState.totalChallenges}`;
+            updateStats();
+            scheduleNextProduct();
+        }
+        function startDemo() {
+            gameState.isActive = true; gameState.isPaused = false; gameState.isDemo = true; gameState.challengesCompleted = 0;
+            document.getElementById('start-btn').disabled = true;
+            document.getElementById('pause-btn').disabled = false;
+            document.getElementById('demo-btn').disabled = true;
+            document.getElementById('current-instruction').textContent = '🎮 DEMO MODE - Practice stowing without affecting your scores!';
+            document.getElementById('game-instructions').style.display = 'none';
+            document.getElementById('timer-display').textContent = 'DEMO MODE';
+            scheduleNextProduct();
+        }
+        function pauseGame() {
+            if (!gameState.isActive) return;
+            gameState.isPaused = !gameState.isPaused;
+            const btn = document.getElementById('pause-btn');
+            if (gameState.isPaused) {
+                btn.textContent = '▶️ RESUME'; clearTimeout(productTimer);
+                document.getElementById('current-instruction').textContent = '⏸️ Game Paused - Click RESUME to continue';
+            } else {
+                btn.textContent = '⏸️ PAUSE'; scheduleNextProduct();
+                const txt = gameState.isDemo ? '🎮 DEMO MODE - Practice stowing without affecting your scores!' : '👀 Watch for products and stow!';
+                document.getElementById('current-instruction').textContent = txt;
+                document.getElementById('game-instructions').style.display = 'none';
+            }
+        }
+        function scheduleNextProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            if (gameState.isDemo) {
+                const delay = gameState.difficulty === 'easy' ? 4000 : gameState.difficulty === 'medium' ? 3000 : 2000;
+                productTimer = setTimeout(showProduct, delay);
+                return;
+            }
+            if (gameState.challengesCompleted >= gameState.totalChallenges) {
+                // Show level complete popup
+                showLevelCompletePopup(gameState.difficulty);
+                return;
+            }
+            const delay = gameState.difficulty === 'easy' ? 4000 : gameState.difficulty === 'medium' ? 3000 : 2000;
+            productTimer = setTimeout(showProduct, delay);
+        }
+        function showProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            document.getElementById('conveyor-belt').innerHTML = '';
+            document.querySelectorAll('.bin').forEach(bin => bin.classList.remove('target'));
+            gameState.currentProduct = products[Math.floor(Math.random() * products.length)];
+            gameState.targetBin = rows[Math.floor(Math.random() * rows.length)] + cols[Math.floor(Math.random() * cols.length)];
+            const prod = document.createElement('div');
+            prod.className = 'product-item';
+            let duration = '8s';
+            if (gameState.difficulty === 'medium') duration = '5.5s';
+            else if (gameState.difficulty === 'complex') duration = '4s';
+            prod.style.animationDuration = duration;
+            prod.innerHTML = `<div class="product-emoji">${gameState.currentProduct.emoji}</div><div class="product-info"><div class="product-name">${gameState.currentProduct.name}</div><div class="product-id">${gameState.currentProduct.id}</div></div>`;
+            document.getElementById('conveyor-belt').appendChild(prod);
+            document.getElementById(`bin-${gameState.targetBin}`).classList.add('target');
+            document.getElementById('current-instruction').textContent = `📦 Stow ${gameState.currentProduct.name} in bin ${gameState.targetBin}`;
+        }
+        function handleBinClick(binId) {
+            if (!gameState.isActive || gameState.isPaused || !gameState.currentProduct) return;
+            const bin = document.getElementById(`bin-${binId}`);
+            if (binId === gameState.targetBin) {
+                bin.classList.add('correct');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.correctStows++;
+                    gameState.itemsStowed++;
+                    gameState.combo++;
+                    gameState.challengesCompleted++;
+                    let points = gameState.difficulty === 'easy' ? 10 : (gameState.difficulty === 'medium' ? 15 : 25);
+                    if (gameState.combo > 1) points += gameState.combo * 2;
+                    gameState.score += points;
+                    gameState.levelScores[gameState.difficulty] += points;
+                    if (gameState.combo > gameState.bestCombo) gameState.bestCombo = gameState.combo;
+                    if (gameState.combo === 3) { showCombo('3x COMBO!'); showAchievement('Getting Hot', 'Hit a 3x combo streak!'); }
+                    else if (gameState.combo === 5) { showCombo('PERFECT!'); showAchievement('Stowing Master', 'Perfect 5x combo - All challenges completed flawlessly!'); }
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                }
+                bin.querySelector('.bin-content').textContent = gameState.currentProduct.emoji;
+                bin.classList.add('occupied');
+                setTimeout(() => {
+                    bin.classList.remove('correct', 'target');
+                    if (gameState.isDemo || gameState.challengesCompleted < gameState.totalChallenges) {
+                        if (!gameState.isDemo) updateChallengeDisplay();
+                        scheduleNextProduct();
+                    }
+                }, 1000);
+            } else {
+                bin.classList.add('incorrect');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.combo = 0;
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                }
+                setTimeout(() => {
+                    bin.classList.remove('incorrect');
+                    if (gameState.isDemo || gameState.challengesCompleted < gameState.totalChallenges) scheduleNextProduct();
+                }, 1000);
+            }
+            gameState.currentProduct = null; gameState.targetBin = null;
+        }
+        function showCombo(text) {
+            const comboDisplay = document.getElementById('combo-display');
+            comboDisplay.textContent = text;
+            comboDisplay.style.display = 'block';
+            setTimeout(() => comboDisplay.style.display = 'none', 1500);
+        }
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievement-popup');
+            document.getElementById('achievement-title').textContent = title;
+            document.getElementById('achievement-text').textContent = text;
+            popup.classList.add('show');
+            setTimeout(() => popup.classList.remove('show'), 4000);
+        }
+        function updateStats() {
+            document.getElementById('total-score').textContent = gameState.score.toLocaleString();
+            document.getElementById('accuracy').textContent = gameState.accuracy + '%';
+            document.getElementById('items-stowed').textContent = gameState.itemsStowed;
+            document.getElementById('best-combo').textContent = gameState.bestCombo;
+        }
+        function updateChallengeDisplay() {
+            document.getElementById('timer-display').textContent = `Challenge ${gameState.challengesCompleted + 1} of ${gameState.totalChallenges}`;
+        }
+        function addOrUpdateLeaderboardEntry() {
+            let entry = leaderboard.find(e => e.name === userName);
+            if (!entry) {
+                entry = { name: userName, scores: { easy: 0, medium: 0, complex: 0 }, totalScore: 0 };
+                leaderboard.push(entry);
+            }
+            entry.scores[gameState.difficulty] = gameState.levelScores[gameState.difficulty] || 0;
+            entry.totalScore = Object.values(entry.scores).reduce((a, b) => a + b, 0);
+        }
+        function showLeaderboardScreen() {
+            updateLeaderboardTable();
+            leaderboardScreen.style.display = 'block';
+            gameContainer.style.display = 'none';
+        }
+        function closeLeaderboardScreen() {
+            leaderboardScreen.style.display = 'none';
+            gameContainer.style.display = 'block';
+        }
+        function updateLeaderboardTable() {
+            leaderboardBody.innerHTML = '';
+            const sorted = leaderboard.slice().sort((a, b) => b.totalScore - a.totalScore);
+            sorted.forEach((entry, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.scores.easy || 0}</td>
+                    <td>${entry.scores.medium || 0}</td>
+                    <td>${entry.scores.complex || 0}</td>
+                    <td>${entry.totalScore || 0}</td>
+                `;
+                leaderboardBody.appendChild(tr);
+            });
+        }
+
+        // Show popup on level complete
+        function showLevelCompletePopup(level) {
+            popupMessage.textContent = `Successfully completed the ${capitalize(level)} level! What would you like to do next?`;
+            btnTryNext.style.display = level === 'complex' ? 'none' : 'inline-block';
+            levelCompletePopup.style.display = 'block';
+            pauseGame();
+        }
+
+        // Initial call
+        initializeGame();
+    </script>
+</body>
+
+</html>
