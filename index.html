@@ -5,6 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Fulfillment Center Training Game</title>
+
+    <!-- Your existing CSS styles (keep your styles here or include your previous style block) -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
 
@@ -18,6 +20,7 @@
         }
 
         /* Reset & base styles */
+
         * {
             margin: 0;
             padding: 0;
@@ -35,6 +38,7 @@
         }
 
         /* Welcome Screen */
+
         #welcome-screen {
             height: 100vh;
             display: flex;
@@ -114,6 +118,7 @@
         }
 
         /* Main game container hidden initially */
+
         #game-container {
             display: none;
             max-width: 1400px;
@@ -135,6 +140,7 @@
         }
 
         /* Header styles */
+
         .header {
             text-align: center;
             background: var(--card-bg);
@@ -176,6 +182,7 @@
         }
 
         /* Game header */
+
         .game-header {
             display: flex;
             justify-content: space-between;
@@ -214,6 +221,7 @@
         }
 
         /* Stats dashboard */
+
         .stats-dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -250,6 +258,7 @@
         }
 
         /* Game area */
+
         .game-area {
             background: var(--card-bg);
             border-radius: 20px;
@@ -259,6 +268,7 @@
         }
 
         /* Difficulty selector */
+
         .difficulty-selector {
             display: flex;
             gap: 10px;
@@ -287,6 +297,7 @@
         }
 
         /* Instruction panel */
+
         .instruction-panel {
             background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
             padding: 20px;
@@ -311,6 +322,7 @@
         }
 
         /* Stowing area */
+
         .stowing-area {
             display: grid;
             grid-template-columns: 1fr 400px;
@@ -377,6 +389,7 @@
         }
 
         /* Storage bins */
+
         .pod-container {
             display: flex;
             justify-content: center;
@@ -395,8 +408,8 @@
         }
 
         .bin {
-            background: #f8f9fa;
-            border: 3px solid #dee2e6;
+            background: #FFD700;
+            border: 3px solid #FFC107;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -407,10 +420,11 @@
             transition: all 0.3s ease;
             position: relative;
             border-radius: 8px;
+            color: #333;
         }
 
         .bin:hover {
-            background: #e9ecef;
+            background: #e6850e;
             transform: scale(1.05);
             border-color: var(--primary-color);
         }
@@ -422,10 +436,11 @@
         }
 
         .bin.target {
-            background: #FFF3E0;
-            border-color: var(--primary-color);
-            color: #F57C00;
+            background: #FFD700;
+            border-color: #FFC107;
+            color: #333;
             animation: targetPulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 15px #FFD700;
         }
 
         .bin.correct {
@@ -447,12 +462,12 @@
             0%,
             100% {
                 transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 153, 0, 0.7);
+                box-shadow: 0 0 15px #FFD700;
             }
 
             50% {
                 transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(255, 153, 0, 0);
+                box-shadow: 0 0 25px #FFD700;
             }
         }
 
@@ -498,6 +513,7 @@
         }
 
         /* Controls buttons */
+
         .game-controls {
             display: flex;
             justify-content: center;
@@ -550,6 +566,7 @@
         }
 
         /* Timer & combo display */
+
         .timer-display {
             font-size: 1.5em;
             font-weight: bold;
@@ -562,7 +579,6 @@
             user-select: none;
         }
 
-        /* Combo display */
         #combo-display {
             position: fixed;
             top: 50%;
@@ -580,6 +596,7 @@
         }
 
         /* Achievement popup */
+
         .achievement-popup {
             position: fixed;
             top: 20px;
@@ -605,6 +622,7 @@
         }
 
         /* Leaderboard */
+
         #leaderboard-screen {
             position: fixed;
             top: 50%;
@@ -690,6 +708,7 @@
         }
 
         /* Level complete popup */
+
         #level-complete-popup,
         #demo-complete-popup {
             display: none;
@@ -753,6 +772,7 @@
         }
 
         /* Responsive adjustments */
+
         @media(max-width: 768px) {
             .stowing-area {
                 grid-template-columns: 1fr;
@@ -790,6 +810,7 @@
 
 <body>
 
+    <!-- Welcome Screen -->
     <div id="welcome-screen" role="main" aria-label="Welcome to Fulfillment Center Training Game">
         <div id="welcome-logo" aria-hidden="true">📦</div>
         <div id="welcome-title">Stowing Master</div>
@@ -798,7 +819,8 @@
         <button id="submit-name-btn" aria-label="Submit name and start game">Start Shift</button>
     </div>
 
-    <div id="game-container" role="main" aria-label="Fulfillment Center Training Game Interface">
+    <!-- Main Game Container -->
+    <div id="game-container" role="main" aria-label="Fulfillment Center Training Game Interface" style="display:none;">
         <div class="header">
             <h1>📦 Fulfillment Center Stowing Master</h1>
             <p>Train to become an expert Warehouse Associate</p>
@@ -878,14 +900,16 @@
         </div>
     </div>
 
+    <!-- Popups and leaderboard -->
     <div class="combo-display" id="combo-display"></div>
 
-    <div class="achievement-popup" id="achievement-popup" aria-live="assertive" aria-atomic="true" role="alert">
+    <!-- <div class="achievement-popup" id="achievement-popup" aria-live="assertive" aria-atomic="true" role="alert">
         <h4 id="achievement-title"></h4>
         <div id="achievement-text"></div>
-    </div>
+    </div> -->
 
-    <div id="leaderboard-screen" role="dialog" aria-modal="true" aria-labelledby="leaderboard-title">
+    <div id="leaderboard-screen" role="dialog" aria-modal="true" aria-labelledby="leaderboard-title"
+        style="display:none;">
         <h2 id="leaderboard-title">Leaderboard</h2>
         <table id="leaderboard-table" aria-describedby="leaderboard-desc" role="table"
             aria-label="Leaderboard showing players scores">
@@ -904,46 +928,126 @@
         <button id="leaderboard-back-btn" aria-label="Back to game interface">Back</button>
     </div>
 
+    <!-- Level Complete Popup -->
     <div id="level-complete-popup">
         <p id="popup-message"></p>
         <button id="btn-try-next">Move to Next Level</button>
         <button id="btn-exit">Exit</button>
     </div>
 
+    <!-- Demo Complete Popup -->
     <div id="demo-complete-popup">
         <p>Demo completed! Ready for the real challenge?</p>
         <button id="btn-try-low-level">Try Low Level</button>
         <button id="btn-exit-demo">Exit</button>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBnQ0s1jFoMH6J7vhKVM7NVC-WNScLdA7E",
+            authDomain: "sutherland-6ce2b.firebaseapp.com",
+            projectId: "sutherland-6ce2b",
+            storageBucket: "sutherland-6ce2b.firebasestorage.app",
+            messagingSenderId: "243800407888",
+            appId: "1:243800407888:web:2c4dfa1e6a267ba2a17655",
+            measurementId: "G-S6GMQ32JJ5"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
     <script>
         /* --- Variables & Data --- */
         let userName = '';
         let productTimer;
-        let lastTimestamp = 0;
-        let animationFrame;
-        const products = [
-            { emoji: '📱', name: 'iPhone 15 Pro', id: 'SKU-EL001' },
-            { emoji: '💻', name: 'MacBook Air M2', id: 'SKU-EL002' },
-            { emoji: '🎧', name: 'Wireless Earbuds', id: 'SKU-EL003' },
-            { emoji: '📚', name: 'Atomic Habits Book', id: 'SKU-BK001' },
-            { emoji: '👕', name: 'Athletic T-Shirt', id: 'SKU-CL001' },
-            { emoji: '👟', name: 'Running Shoes', id: 'SKU-SH001' },
-            { emoji: '🧴', name: 'Face Cleanser', id: 'SKU-BT001' },
-            { emoji: '☕', name: 'Coffee Maker', id: 'SKU-KT001' },
-            { emoji: '🎮', name: 'Gaming Controller', id: 'SKU-GM001' },
-            { emoji: '📺', name: 'Streaming Device', id: 'SKU-EL004' },
-            { emoji: '🏠', name: 'Smart Speaker', id: 'SKU-SM001' },
-            { emoji: '🧸', name: 'Teddy Bear Plush', id: 'SKU-TY001' },
-            { emoji: '💊', name: 'Vitamin Gummies', id: 'SKU-HT001' },
-            { emoji: '🔋', name: 'Portable Charger', id: 'SKU-EL005' },
-            { emoji: '🎒', name: 'Travel Backpack', id: 'SKU-BG001' },
-            { emoji: '🍳', name: 'Cast Iron Skillet', id: 'SKU-KT002' },
-            { emoji: '🧽', name: 'Cleaning Sponge', id: 'SKU-CL002' },
-            { emoji: '🕯️', name: 'Scented Candle', id: 'SKU-HM001' },
-            { emoji: '🏋️', name: 'Resistance Bands', id: 'SKU-FT001' },
-            { emoji: '🧊', name: 'Insulated Tumbler', id: 'SKU-DR001' }
-        ];
+        const products = [{
+            emoji: '📱',
+            name: 'iPhone 15 Pro',
+            id: 'SKU-EL001'
+        }, {
+            emoji: '💻',
+            name: 'MacBook Air M2',
+            id: 'SKU-EL002'
+        }, {
+            emoji: '🎧',
+            name: 'Wireless Earbuds',
+            id: 'SKU-EL003'
+        }, {
+            emoji: '📚',
+            name: 'Atomic Habits Book',
+            id: 'SKU-BK001'
+        }, {
+            emoji: '👕',
+            name: 'Athletic T-Shirt',
+            id: 'SKU-CL001'
+        }, {
+            emoji: '👟',
+            name: 'Running Shoes',
+            id: 'SKU-SH001'
+        }, {
+            emoji: '🧴',
+            name: 'Face Cleanser',
+            id: 'SKU-BT001'
+        }, {
+            emoji: '☕',
+            name: 'Coffee Maker',
+            id: 'SKU-KT001'
+        }, {
+            emoji: '🎮',
+            name: 'Gaming Controller',
+            id: 'SKU-GM001'
+        }, {
+            emoji: '📺',
+            name: 'Streaming Device',
+            id: 'SKU-EL004'
+        }, {
+            emoji: '🏠',
+            name: 'Smart Speaker',
+            id: 'SKU-SM001'
+        }, {
+            emoji: '🧸',
+            name: 'Teddy Bear Plush',
+            id: 'SKU-TY001'
+        }, {
+            emoji: '💊',
+            name: 'Vitamin Gummies',
+            id: 'SKU-HT001'
+        }, {
+            emoji: '🔋',
+            name: 'Portable Charger',
+            id: 'SKU-EL005'
+        }, {
+            emoji: '🎒',
+            name: 'Travel Backpack',
+            id: 'SKU-BG001'
+        }, {
+            emoji: '🍳',
+            name: 'Cast Iron Skillet',
+            id: 'SKU-KT002'
+        }, {
+            emoji: '🧽',
+            name: 'Cleaning Sponge',
+            id: 'SKU-CL002'
+        }, {
+            emoji: '🕯️',
+            name: 'Scented Candle',
+            id: 'SKU-HM001'
+        }, {
+            emoji: '🏋️',
+            name: 'Resistance Bands',
+            id: 'SKU-FT001'
+        }, {
+            emoji: '🧊',
+            name: 'Insulated Tumbler',
+            id: 'SKU-DR001'
+        }];
+
         const rows = ['F', 'E', 'D', 'C', 'B', 'A'];
         const cols = [1, 2, 3, 4];
 
@@ -963,14 +1067,15 @@
             challengesCompleted: 0,
             totalChallenges: 5,
             isDemo: false,
-            levelScores: { easy: 0, medium: 0, complex: 0 }
+            levelScores: {
+                easy: 0,
+                medium: 0,
+                complex: 0
+            }
         };
-        let leaderboard = [
-            { name: 'Arun', scores: { easy: 55, medium: 70, complex: 60 }, totalScore: 185 },
-            { name: 'Sara', scores: { easy: 75, medium: 65, complex: 45 }, totalScore: 185 },
-            { name: 'Jatin', scores: { easy: 60, medium: 55, complex: 50 }, totalScore: 165 },
-            { name: 'Maya', scores: { easy: 80, medium: 75, complex: 70 }, totalScore: 225 }
-        ];
+
+        // Leaderboard data from Firebase
+        let leaderboard = [];
 
         /* --- DOM Elements --- */
         const welcomeScreen = document.getElementById('welcome-screen');
@@ -982,76 +1087,29 @@
         const userNameInput = document.getElementById('user-name-input');
         const submitNameBtn = document.getElementById('submit-name-btn');
 
-        const levelCompletePopup = document.getElementById('level-complete-popup');
-        const popupMessage = document.getElementById('popup-message');
-        const btnTryNext = document.getElementById('btn-try-next');
-        const btnExit = document.getElementById('btn-exit');
+        // ... other element references if needed ...
 
-        const demoCompletePopup = document.getElementById('demo-complete-popup');
-        const btnTryLowLevel = document.getElementById('btn-try-low-level');
-        const btnExitDemo = document.getElementById('btn-exit-demo');
-
-        /* --- Event Listeners --- */
-        // Start game after entering name
-        submitNameBtn.onclick = () => {
-            const name = userNameInput.value.trim();
-            if (!name) {
-                alert("Please enter your name to start.");
-                userNameInput.focus();
-                return;
-            }
-            userName = name;
-            welcomeScreen.style.display = 'none';
-            gameContainer.style.display = 'block';
-            initializeGame();
-        };
-
-        // Leaderboard button
-        leaderboardButton.onclick = () => {
-            if (!gameState.isDemo) {
-                addOrUpdateLeaderboardEntry();
-            }
-            showLeaderboardScreen();
-        };
-
-        // Back from leaderboard
-        leaderboardBackBtn.onclick = () => {
-            closeLeaderboardScreen();
-        };
-
-        // Next level
-        btnTryNext.onclick = () => {
-            closeLevelCompletePopup();
-            proceedToNextLevel();
-        };
-
-        // Exit button
-        btnExit.onclick = () => {
-            closeLevelCompletePopup();
-            addOrUpdateLeaderboardEntry();
-            showLeaderboardScreen();
-        };
-
-        // Demo complete buttons
-        btnTryLowLevel.onclick = () => {
-            closeDemoCompletePopup();
-            setDifficulty('easy');
-            startGame();
-        };
-        btnExitDemo.onclick = () => {
-            closeDemoCompletePopup();
-            initializeGame();
-        };
-
-        /* --- Utility Functions --- */
-        function capitalize(text) {
-            return text.charAt(0).toUpperCase() + text.slice(1);
+        /* --- Firebase Leaderboard Setup --- */
+        function setupLeaderboardListener() {
+            const leaderboardRef = firebase.database().ref('leaderboard');
+            leaderboardRef.on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                leaderboard = Object.values(data);
+                updateLeaderboardTable();
+            });
         }
 
-        // Initialize game
+        // Call on load
+        window.onload = () => {
+            setupLeaderboardListener();
+            initializeGame();
+        };
+
+        /* --- Initialize game --- */
         function initializeGame() {
             createPod();
             populateRandomBins();
+            resetGame();
             updateStats();
             document.getElementById('timer-display').textContent = 'Ready to Start';
             document.getElementById('current-instruction').textContent = '🚀 Click START to begin your shift or TRY DEMO to practice!';
@@ -1063,7 +1121,7 @@
             setDifficulty('easy');
         }
 
-        // Create storage bins
+        /* --- Create storage bins --- */
         function createPod() {
             const pod = document.getElementById('main-pod');
             pod.innerHTML = '';
@@ -1076,22 +1134,32 @@
                     bin.setAttribute('role', 'button');
                     bin.setAttribute('aria-label', `Storage bin ${r}${c}`);
                     bin.onclick = () => handleBinClick(r + c);
-                    bin.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleBinClick(r + c); } };
+                    bin.onkeydown = e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleBinClick(r + c);
+                        }
+                    };
                     const label = document.createElement('div');
-                    label.className = 'bin-label'; label.textContent = r + c;
+                    label.className = 'bin-label';
+                    label.textContent = r + c;
                     const content = document.createElement('div');
                     content.className = 'bin-content';
-                    bin.appendChild(label); bin.appendChild(content);
+                    bin.appendChild(label);
+                    bin.appendChild(content);
                     pod.appendChild(bin);
                 });
             });
         }
 
-        // Populate random bins with products
+        /* --- Populate random bins --- */
         function populateRandomBins() {
             const bins = document.querySelectorAll('.bin');
-            bins.forEach(bin => { bin.classList.remove('occupied'); bin.querySelector('.bin-content').textContent = ''; });
-            let count = Math.floor(Math.random() * 8) + 4;
+            bins.forEach(b => {
+                b.classList.remove('occupied', 'correct', 'incorrect');
+                b.querySelector('.bin-content').textContent = '';
+            });
+            const count = Math.floor(Math.random() * 8) + 4;
             const selected = Array.from(bins).sort(() => 0.5 - Math.random()).slice(0, count);
             selected.forEach(bin => {
                 bin.classList.add('occupied');
@@ -1100,7 +1168,7 @@
             });
         }
 
-        // Set difficulty
+        /* --- Set difficulty --- */
         function setDifficulty(level) {
             gameState.difficulty = level;
             document.querySelectorAll('.difficulty-btn').forEach(btn => {
@@ -1115,15 +1183,17 @@
                 btn.setAttribute('aria-checked', 'true');
             }
             gameState.totalChallenges = 5;
-            gameState.challengesCompleted = 0;
             if (!gameState.isActive) {
                 document.getElementById('timer-display').textContent = `Challenge 1 of 5`;
             }
         }
 
-        // Start game
+        /* --- Start game --- */
         function startGame() {
-            if (!userName) { alert('Please enter your name before starting the game.'); return; }
+            if (!userName) {
+                alert('Please enter your name before starting the game.');
+                return;
+            }
             resetGame();
             gameState.isActive = true;
             gameState.isPaused = false;
@@ -1138,7 +1208,7 @@
             scheduleNextProduct();
         }
 
-        // Start demo mode
+        /* --- Start demo mode --- */
         function startDemo() {
             resetGame();
             gameState.isActive = true;
@@ -1153,7 +1223,7 @@
             scheduleNextProduct();
         }
 
-        // Reset game stats
+        /* --- Reset game stats --- */
         function resetGame() {
             gameState.score = 0;
             gameState.accuracy = 100;
@@ -1163,16 +1233,20 @@
             gameState.combo = 0;
             gameState.bestCombo = 0;
             gameState.challengesCompleted = 0;
-            if (!gameState.isDemo) {
-                gameState.levelScores = { easy: 0, medium: 0, complex: 0 };
-            }
+            gameState.levelScores = {
+                easy: 0,
+                medium: 0,
+                complex: 0
+            };
             const belt = document.getElementById('conveyor-belt');
             belt.innerHTML = '';
             document.querySelectorAll('.bin').forEach(b => b.classList.remove('target', 'correct', 'incorrect'));
             if (productTimer) clearTimeout(productTimer);
+            gameState.currentProduct = null;
+            gameState.targetBin = null;
         }
 
-        // Pause/Resume game
+        /* --- Pause/Resume --- */
         function pauseGame() {
             if (!gameState.isActive) return;
             gameState.isPaused = !gameState.isPaused;
@@ -1189,7 +1263,7 @@
             }
         }
 
-        // Schedule next product display
+        /* --- Schedule next product --- */
         function scheduleNextProduct() {
             if (!gameState.isActive || gameState.isPaused) return;
             if (gameState.challengesCompleted >= gameState.totalChallenges) {
@@ -1201,11 +1275,295 @@
                 }
                 return;
             }
-            const delay = gameState.difficulty === 'easy' ? 4000 : (gameState.difficulty === 'medium' ? 3000 : 2000);
+            const delay = gameState.difficulty === 'easy' ? 4000 : (gameState.difficulty === 'medium') ? 3000 : 2000;
             productTimer = setTimeout(showProduct, delay);
         }
 
-        // Show a product on conveyor
+        /* --- Show product --- */
+        function showProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            const belt = document.getElementById('conveyor-belt');
+            belt.innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target'));
+
+            // Pick a product and bin
+            gameState.currentProduct = products[Math.floor(Math.random() * products.length)];
+            gameState.targetBin = rows[Math.floor(Math.random() * rows.length)] + cols[Math.floor(Math.random() * cols.length)];
+
+            const prodDiv = document.createElement('div');
+            prodDiv.className = 'product-item';
+            let duration = '8s';
+            if (gameState.difficulty === 'medium') duration = '5.5s';
+            else if (gameState.difficulty === 'complex') duration = '4s';
+            prodDiv.style.animationDuration = duration;
+            prodDiv.innerHTML = `<div class="product-emoji">${gameState.currentProduct.emoji}</div><div class="product-info"><div class="product-name">${gameState.currentProduct.name}</div><div class="product-id">${gameState.currentProduct.id}</div></div>`;
+            belt.appendChild(prodDiv);
+            document.getElementById(`bin-${gameState.targetBin}`).classList.add('target');
+            document.getElementById('current-instruction').textContent = `📦 Stow ${gameState.currentProduct.name} in bin ${gameState.targetBin}`;
+        }
+
+        /* --- Handle bin click --- */
+        function handleBinClick(binId) {
+            if (!gameState.isActive || gameState.isPaused || !gameState.currentProduct) return;
+            const bin = document.getElementById(`bin-${binId}`);
+            if (binId === gameState.targetBin) {
+                // Correct stow
+                bin.classList.add('correct');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.correctStows++;
+                    gameState.itemsStowed++;
+                    gameState.combo++;
+                    gameState.challengesCompleted++;
+                    let points = (gameState.difficulty === 'easy') ? 10 : (gameState.difficulty === 'medium') ? 15 : 25;
+                    if (gameState.combo > 1) points += gameState.combo * 2;
+                    gameState.score += points;
+                    gameState.levelScores[gameState.difficulty] += points;
+                    if (gameState.combo > gameState.bestCombo) gameState.bestCombo = gameState.combo;
+                    if (gameState.combo === 3) {
+                        showCombo('3x COMBO!');
+                        showAchievement('Getting Hot', 'Hit a 3x combo streak!');
+                    }
+                    if (gameState.combo === 5) {
+                        showCombo('PERFECT!');
+                        showAchievement('Stowing Master', 'Perfect 5x combo - All challenges completed flawlessly!');
+                    }
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                } else {
+                    gameState.challengesCompleted++;
+                }
+                bin.querySelector('.bin-content').textContent = gameState.currentProduct.emoji;
+                bin.classList.add('occupied');
+
+                // Clear current product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+
+                setTimeout(() => {
+                    bin.classList.remove('correct', 'target');
+                    updateChallengeDisplay();
+                    scheduleNextProduct();
+                }, 1000);
+            } else {
+                // Incorrect
+                bin.classList.add('incorrect');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.combo = 0;
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                }
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('incorrect');
+                    scheduleNextProduct();
+                }, 1000);
+            }
+        }
+
+        /* --- Show combo --- */
+        function showCombo(text) {
+            const comboDiv = document.getElementById('combo-display');
+            comboDiv.textContent = text;
+            comboDiv.style.display = 'block';
+            setTimeout(() => {
+                comboDiv.style.display = 'none';
+            }, 1500);
+        }
+        /* --- Show achievement --- */
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievement-popup');
+            document.getElementById('achievement-title').textContent = title;
+            document.getElementById('achievement-text').textContent = text;
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 4000);
+        }
+
+        /* --- Update stats --- */
+        function updateStats() {
+            document.getElementById('total-score').textContent = gameState.score.toLocaleString();
+            document.getElementById('accuracy').textContent = gameState.accuracy + '%';
+            document.getElementById('items-stowed').textContent = gameState.itemsStowed;
+            document.getElementById('best-combo').textContent = gameState.bestCombo;
+        }
+
+        function updateChallengeDisplay() {
+            if (gameState.isDemo) {
+                document.getElementById('timer-display').textContent = 'DEMO MODE';
+            } else {
+                document.getElementById('timer-display').textContent = `Challenge ${gameState.challengesCompleted + 1} of ${gameState.totalChallenges}`;
+            }
+        }
+
+        /* --- Firebase Leaderboard update --- */
+        function addOrUpdateLeaderboardEntry() {
+            if (!userName) return;
+            const userRef = firebase.database().ref('leaderboard/' + userName);
+            userRef.once('value', (snapshot) => {
+                let data = snapshot.val() || {
+                    name: userName,
+                    scores: {},
+                    totalScore: 0
+                };
+                data.scores[gameState.difficulty] = gameState.score;
+                data.totalScore = Object.values(data.scores).reduce((a, b) => a + b, 0);
+                userRef.set(data);
+            });
+        }
+
+        /* --- Show leaderboard --- */
+        function showLeaderboardScreen() {
+            updateLeaderboardTable();
+            document.getElementById('leaderboard-screen').style.display = 'block';
+            document.getElementById('game-container').style.display = 'none';
+        }
+
+        function closeLeaderboardScreen() {
+            document.getElementById('leaderboard-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+        }
+
+        function updateLeaderboardTable() {
+            document.getElementById('leaderboard-body').innerHTML = '';
+            const sorted = [...leaderboard].sort((a, b) => b.totalScore - a.totalScore);
+            sorted.forEach((entry, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${entry.name}</td>
+      <td>${entry.scores.easy || 0}</td>
+      <td>${entry.scores.medium || 0}</td>
+      <td>${entry.scores.complex || 0}</td>
+      <td>${entry.totalScore || 0}</td>
+    `;
+                document.getElementById('leaderboard-body').appendChild(tr);
+            });
+        }
+
+        /* --- Level complete popup --- */
+        function showLevelCompletePopup(level) {
+            document.getElementById('popup-message').textContent = `Successfully completed the ${level} level!`;
+            if (level === 'complex') {
+                document.getElementById('btn-try-next').style.display = 'none';
+            } else {
+                document.getElementById('btn-try-next').style.display = 'inline-block';
+            }
+            document.getElementById('level-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeLevelCompletePopup() {
+            document.getElementById('level-complete-popup').style.display = 'none';
+        }
+
+        function showDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'none';
+        }
+
+        function proceedToNextLevel() {
+            if (gameState.difficulty === 'easy') setDifficulty('medium');
+            else if (gameState.difficulty === 'medium') setDifficulty('complex');
+
+            // Reset game for new level
+            gameState.isActive = true;
+            gameState.challengesCompleted = 0;
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            updateStats();
+            document.getElementById('timer-display').textContent = `Challenge 1 of ${gameState.totalChallenges}`;
+            scheduleNextProduct();
+        }
+
+        /* --- Restart game --- */
+        function restartGame() {
+            resetGame();
+            setDifficulty('easy');
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('pause-btn').disabled = true;
+            document.getElementById('demo-btn').disabled = false;
+            document.getElementById('current-instruction').textContent = '🚀 Click START to begin your shift or TRY DEMO to practice!';
+            updateStats();
+        }
+
+        /* --- On Load --- */
+        window.onload = () => {
+            setupLeaderboardListener();
+            initializeGame();
+        };
+
+        /* --- Event Listeners --- */
+        document.getElementById('submit-name-btn').onclick = () => {
+            const name = document.getElementById('user-name-input').value.trim();
+            if (!name) {
+                alert("Please enter your name");
+                document.getElementById('user-name-input').focus();
+                return;
+            }
+            userName = name;
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+            initializeGame();
+        };
+
+        document.getElementById('leaderboard-button').onclick = () => {
+            addOrUpdateLeaderboardEntry();
+            showLeaderboardScreen();
+        };
+        document.getElementById('leaderboard-back-btn').onclick = () => {
+            closeLeaderboardScreen();
+        };
+
+        document.getElementById('btn-try-next').onclick = () => {
+            closeLevelCompletePopup();
+            proceedToNextLevel();
+        };
+        document.getElementById('btn-exit').onclick = () => {
+            closeLevelCompletePopup();
+            addOrUpdateLeaderboardEntry();
+            showLeaderboardScreen();
+        };
+
+        document.getElementById('btn-try-low-level').onclick = () => {
+            closeDemoCompletePopup();
+            restartGame();
+        };
+        document.getElementById('btn-exit-demo').onclick = () => {
+            closeDemoCompletePopup();
+            initializeGame();
+        };
+
+        /* --- Schedule next product --- */
+        function scheduleNextProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            if (gameState.challengesCompleted >= gameState.totalChallenges) {
+                if (gameState.isDemo) {
+                    showDemoCompletePopup();
+                } else {
+                    addOrUpdateLeaderboardEntry();
+                    showLevelCompletePopup(gameState.difficulty);
+                }
+                return;
+            }
+            const delay = gameState.difficulty === 'easy' ? 4000 : (gameState.difficulty === 'medium') ? 3000 : 2000;
+            productTimer = setTimeout(showProduct, delay);
+        }
+
+        /* --- Show product --- */
         function showProduct() {
             if (!gameState.isActive || gameState.isPaused) return;
             const belt = document.getElementById('conveyor-belt');
@@ -1225,12 +1583,12 @@
             document.getElementById('current-instruction').textContent = `📦 Stow ${gameState.currentProduct.name} in bin ${gameState.targetBin}`;
         }
 
-        // Handle bin click
+        /* --- Handle bin click --- */
         function handleBinClick(binId) {
             if (!gameState.isActive || gameState.isPaused || !gameState.currentProduct) return;
             const bin = document.getElementById(`bin-${binId}`);
             if (binId === gameState.targetBin) {
-                // Correct stow
+                // correct
                 bin.classList.add('correct');
                 if (!gameState.isDemo) {
                     gameState.totalAttempts++;
@@ -1243,22 +1601,31 @@
                     gameState.score += points;
                     gameState.levelScores[gameState.difficulty] += points;
                     if (gameState.combo > gameState.bestCombo) gameState.bestCombo = gameState.combo;
-                    if (gameState.combo === 3) { showCombo('3x COMBO!'); showAchievement('Getting Hot', 'Hit a 3x combo streak!'); }
-                    if (gameState.combo === 5) { showCombo('PERFECT!'); showAchievement('Stowing Master', 'Perfect 5x combo - All challenges completed flawlessly!'); }
+                    if (gameState.combo === 3) {
+                        showCombo('3x COMBO!');
+                        showAchievement('Getting Hot', 'Hit a 3x combo streak!');
+                    }
+                    if (gameState.combo === 5) {
+                        showCombo('PERFECT!');
+                        showAchievement('Stowing Master', 'Perfect 5x combo - All challenges completed flawlessly!');
+                    }
                     gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
                     updateStats();
                 } else {
-                    // Demo mode, just update visual state
                     gameState.challengesCompleted++;
                 }
                 bin.querySelector('.bin-content').textContent = gameState.currentProduct.emoji;
                 bin.classList.add('occupied');
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
                 setTimeout(() => {
                     bin.classList.remove('correct', 'target');
+                    updateChallengeDisplay();
                     scheduleNextProduct();
                 }, 1000);
             } else {
-                // Incorrect stow
+                // wrong
                 bin.classList.add('incorrect');
                 if (!gameState.isDemo) {
                     gameState.totalAttempts++;
@@ -1266,33 +1633,37 @@
                     gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
                     updateStats();
                 }
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
                 setTimeout(() => {
                     bin.classList.remove('incorrect');
                     scheduleNextProduct();
                 }, 1000);
             }
-            gameState.currentProduct = null;
-            gameState.targetBin = null;
         }
 
-        // Show combo message
+        /* --- Show combo --- */
         function showCombo(text) {
-            const comboDisplay = document.getElementById('combo-display');
-            comboDisplay.textContent = text;
-            comboDisplay.style.display = 'block';
-            setTimeout(() => { comboDisplay.style.display = 'none'; }, 1500);
+            const comboDiv = document.getElementById('combo-display');
+            comboDiv.textContent = text;
+            comboDiv.style.display = 'block';
+            setTimeout(() => {
+                comboDiv.style.display = 'none';
+            }, 1500);
         }
-
-        // Show achievement popup
+        /* --- Show achievement --- */
         function showAchievement(title, text) {
             const popup = document.getElementById('achievement-popup');
             document.getElementById('achievement-title').textContent = title;
             document.getElementById('achievement-text').textContent = text;
             popup.classList.add('show');
-            setTimeout(() => { popup.classList.remove('show'); }, 4000);
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 4000);
         }
 
-        // Update stats display
+        /* --- Update stats --- */
         function updateStats() {
             document.getElementById('total-score').textContent = gameState.score.toLocaleString();
             document.getElementById('accuracy').textContent = gameState.accuracy + '%';
@@ -1300,69 +1671,62 @@
             document.getElementById('best-combo').textContent = gameState.bestCombo;
         }
 
-        // Update challenge progress display
         function updateChallengeDisplay() {
-            document.getElementById('timer-display').textContent = `Challenge ${gameState.challengesCompleted + 1} of ${gameState.totalChallenges}`;
+            if (gameState.isDemo) {
+                document.getElementById('timer-display').textContent = 'DEMO MODE';
+            } else {
+                document.getElementById('timer-display').textContent = `Challenge ${gameState.challengesCompleted + 1} of ${gameState.totalChallenges}`;
+            }
         }
 
-        // Add or update leaderboard entry
+        /* --- Firebase Leaderboard update --- */
         function addOrUpdateLeaderboardEntry() {
-            let entry = leaderboard.find(e => e.name === userName);
-            if (!entry) {
-                entry = { name: userName, scores: { easy: 0, medium: 0, complex: 0 }, totalScore: 0 };
-                leaderboard.push(entry);
-            }
-            // Update the score for the specific difficulty level
-            entry.scores[gameState.difficulty] = gameState.score;
-            // Recalculate the total score
-            entry.totalScore = Object.values(entry.scores).reduce((a, b) => a + b, 0);
-            // Save to localStorage
-            localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+            if (!userName) return;
+            const userRef = firebase.database().ref('leaderboard/' + userName);
+            userRef.once('value', (snapshot) => {
+                let data = snapshot.val() || {
+                    name: userName,
+                    scores: {},
+                    totalScore: 0
+                };
+                data.scores[gameState.difficulty] = gameState.score;
+                data.totalScore = Object.values(data.scores).reduce((a, b) => a + b, 0);
+                userRef.set(data);
+            });
         }
 
-        // Load leaderboard from local storage
-        function loadLeaderboard() {
-            const storedLeaderboard = localStorage.getItem('leaderboard');
-            if (storedLeaderboard) {
-                leaderboard = JSON.parse(storedLeaderboard);
-            }
-        }
-
-        // Show leaderboard screen
+        /* --- Show leaderboard --- */
         function showLeaderboardScreen() {
             updateLeaderboardTable();
-            leaderboardScreen.style.display = 'block';
-            gameContainer.style.display = 'none';
+            document.getElementById('leaderboard-screen').style.display = 'block';
+            document.getElementById('game-container').style.display = 'none';
         }
 
-        // Close leaderboard
         function closeLeaderboardScreen() {
-            leaderboardScreen.style.display = 'none';
-            gameContainer.style.display = 'block';
+            document.getElementById('leaderboard-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
         }
 
-        // Update leaderboard table
         function updateLeaderboardTable() {
-            leaderboardBody.innerHTML = '';
+            document.getElementById('leaderboard-body').innerHTML = '';
             const sorted = [...leaderboard].sort((a, b) => b.totalScore - a.totalScore);
             sorted.forEach((entry, index) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${entry.name}</td>
-                    <td>${entry.scores.easy || 0}</td>
-                    <td>${entry.scores.medium || 0}</td>
-                    <td>${entry.scores.complex || 0}</td>
-                    <td>${entry.totalScore || 0}</td>
-                `;
-                leaderboardBody.appendChild(tr);
+      <td>${index + 1}</td>
+      <td>${entry.name}</td>
+      <td>${entry.scores.easy || 0}</td>
+      <td>${entry.scores.medium || 0}</td>
+      <td>${entry.scores.complex || 0}</td>
+      <td>${entry.totalScore || 0}</td>
+    `;
+                document.getElementById('leaderboard-body').appendChild(tr);
             });
         }
 
-        // Show level complete popup
+        /* --- Level complete popup --- */
         function showLevelCompletePopup(level) {
-            document.getElementById('popup-message').textContent = `Successfully completed the ${capitalize(level)} level!`;
-            // For the last level, hide "Move Next" button
+            document.getElementById('popup-message').textContent = `Successfully completed the ${level} level!`;
             if (level === 'complex') {
                 document.getElementById('btn-try-next').style.display = 'none';
             } else {
@@ -1372,29 +1736,23 @@
             pauseGame();
         }
 
-        // Close level complete popup
         function closeLevelCompletePopup() {
             document.getElementById('level-complete-popup').style.display = 'none';
         }
 
-        // Show demo complete popup
         function showDemoCompletePopup() {
             document.getElementById('demo-complete-popup').style.display = 'block';
             pauseGame();
         }
 
-        // Close demo complete popup
         function closeDemoCompletePopup() {
             document.getElementById('demo-complete-popup').style.display = 'none';
         }
 
-        // Proceed to next level
+        /* --- Proceed to next level --- */
         function proceedToNextLevel() {
-            if (gameState.difficulty === 'easy') {
-                setDifficulty('medium');
-            } else if (gameState.difficulty === 'medium') {
-                setDifficulty('complex');
-            }
+            if (gameState.difficulty === 'easy') setDifficulty('medium');
+            else if (gameState.difficulty === 'medium') setDifficulty('complex');
             // Reset for new level
             gameState.isActive = true;
             gameState.challengesCompleted = 0;
@@ -1410,11 +1768,1590 @@
             scheduleNextProduct();
         }
 
-        // Initialize on load
-        window.onload = () => {
-            loadLeaderboard();
+        /* --- Restart game --- */
+        function restartGame() {
+            resetGame();
+            setDifficulty('easy');
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('pause-btn').disabled = true;
+            document.getElementById('demo-btn').disabled = false;
+            document.getElementById('current-instruction').textContent = '🚀 Click START to begin your shift or TRY DEMO to practice!';
+            updateStats();
+        }
+
+        /* --- Reset game data --- */
+        function resetGame() {
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            gameState.challengesCompleted = 0;
+            gameState.levelScores = {
+                easy: 0,
+                medium: 0,
+                complex: 0
+            };
+            const belt = document.getElementById('conveyor-belt');
+            belt.innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target', 'correct', 'incorrect'));
+            if (productTimer) clearTimeout(productTimer);
+            gameState.currentProduct = null;
+            gameState.targetBin = null;
+        }
+
+        /* --- Play and pause --- */
+        function pauseGame() {
+            if (!gameState.isActive) return;
+            gameState.isPaused = !gameState.isPaused;
+            const btn = document.getElementById('pause-btn');
+            if (gameState.isPaused) {
+                btn.textContent = '▶️ RESUME';
+                clearTimeout(productTimer);
+                document.getElementById('current-instruction').textContent = '⏸️ Game Paused - Click RESUME to continue';
+            } else {
+                btn.textContent = '⏸️ PAUSE';
+                scheduleNextProduct();
+                const txt = gameState.isDemo ? '🎮 DEMO MODE - Practice stowing without affecting your scores!' : '👀 Watch for products and stow!';
+                document.getElementById('current-instruction').textContent = txt;
+            }
+        }
+
+        /* --- Schedule next product --- */
+        function scheduleNextProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            if (gameState.challengesCompleted >= gameState.totalChallenges) {
+                if (gameState.isDemo) {
+                    showDemoCompletePopup();
+                } else {
+                    addOrUpdateLeaderboardEntry();
+                    showLevelCompletePopup(gameState.difficulty);
+                }
+                return;
+            }
+            const delay = gameState.difficulty === 'easy' ? 4000 : (gameState.difficulty === 'medium') ? 3000 : 2000;
+            productTimer = setTimeout(showProduct, delay);
+        }
+
+        /* --- Show product --- */
+        function showProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            const belt = document.getElementById('conveyor-belt');
+            belt.innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target'));
+            gameState.currentProduct = products[Math.floor(Math.random() * products.length)];
+            gameState.targetBin = rows[Math.floor(Math.random() * rows.length)] + cols[Math.floor(Math.random() * cols.length)];
+            const prodDiv = document.createElement('div');
+            prodDiv.className = 'product-item';
+            let duration = '8s';
+            if (gameState.difficulty === 'medium') duration = '5.5s';
+            else if (gameState.difficulty === 'complex') duration = '4s';
+            prodDiv.style.animationDuration = duration;
+            prodDiv.innerHTML = `<div class="product-emoji">${gameState.currentProduct.emoji}</div><div class="product-info"><div class="product-name">${gameState.currentProduct.name}</div><div class="product-id">${gameState.currentProduct.id}</div></div>`;
+            belt.appendChild(prodDiv);
+            document.getElementById(`bin-${gameState.targetBin}`).classList.add('target');
+            document.getElementById('current-instruction').textContent = `📦 Stow ${gameState.currentProduct.name} in bin ${gameState.targetBin}`;
+        }
+
+        /* --- Handle Bin Click --- */
+        function handleBinClick(binId) {
+            if (!gameState.isActive || gameState.isPaused || !gameState.currentProduct) return;
+            const bin = document.getElementById(`bin-${binId}`);
+            if (binId === gameState.targetBin) {
+                // Correct
+                bin.classList.add('correct');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.correctStows++;
+                    gameState.itemsStowed++;
+                    gameState.combo++;
+                    gameState.challengesCompleted++;
+                    let points = (gameState.difficulty === 'easy') ? 10 : (gameState.difficulty === 'medium') ? 15 : 25;
+                    if (gameState.combo > 1) points += gameState.combo * 2;
+                    gameState.score += points;
+                    gameState.levelScores[gameState.difficulty] += points;
+                    if (gameState.combo > gameState.bestCombo) gameState.bestCombo = gameState.combo;
+                    if (gameState.combo === 3) {
+                        showCombo('3x COMBO!');
+                        showAchievement('Getting Hot', 'Hit a 3x combo streak!');
+                    }
+                    if (gameState.combo === 5) {
+                        showCombo('PERFECT!');
+                        showAchievement('Stowing Master', 'Perfect 5x combo - All challenges completed flawlessly!');
+                    }
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                } else {
+                    gameState.challengesCompleted++;
+                }
+                bin.querySelector('.bin-content').textContent = gameState.currentProduct.emoji;
+                bin.classList.add('occupied');
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('correct', 'target');
+                    updateChallengeDisplay();
+                    scheduleNextProduct();
+                }, 1000);
+            } else {
+                // Wrong
+                bin.classList.add('incorrect');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.combo = 0;
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                }
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('incorrect');
+                    scheduleNextProduct();
+                }, 1000);
+            }
+        }
+
+        /* --- Show combo --- */
+        function showCombo(text) {
+            const comboDiv = document.getElementById('combo-display');
+            comboDiv.textContent = text;
+            comboDiv.style.display = 'block';
+            setTimeout(() => {
+                comboDiv.style.display = 'none';
+            }, 1500);
+        }
+        /* --- Show achievement --- */
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievement-popup');
+            document.getElementById('achievement-title').textContent = title;
+            document.getElementById('achievement-text').textContent = text;
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 4000);
+        }
+
+        /* --- Update stats --- */
+        function updateStats() {
+            document.getElementById('total-score').textContent = gameState.score.toLocaleString();
+            document.getElementById('accuracy').textContent = gameState.accuracy + '%';
+            document.getElementById('items-stowed').textContent = gameState.itemsStowed;
+            document.getElementById('best-combo').textContent = gameState.bestCombo;
+        }
+
+        function updateChallengeDisplay() {
+            if (gameState.isDemo) {
+                document.getElementById('timer-display').textContent = 'DEMO MODE';
+            } else {
+                document.getElementById('timer-display').textContent = `Challenge ${gameState.challengesCompleted + 1} of ${gameState.totalChallenges}`;
+            }
+        }
+
+        /* --- Add or update Firebase leaderboard --- */
+        function addOrUpdateLeaderboardEntry() {
+            if (!userName) return;
+            const userRef = firebase.database().ref('leaderboard/' + userName);
+            userRef.once('value', (snapshot) => {
+                let data = snapshot.val() || {
+                    name: userName,
+                    scores: {},
+                    totalScore: 0
+                };
+                data.scores[gameState.difficulty] = gameState.score;
+                data.totalScore = Object.values(data.scores).reduce((a, b) => a + b, 0);
+                userRef.set(data);
+            });
+        }
+
+        /* --- Show leaderboard --- */
+        function showLeaderboardScreen() {
+            updateLeaderboardTable();
+            document.getElementById('leaderboard-screen').style.display = 'block';
+            document.getElementById('game-container').style.display = 'none';
+        }
+
+        function closeLeaderboardScreen() {
+            document.getElementById('leaderboard-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+        }
+
+        function updateLeaderboardTable() {
+            document.getElementById('leaderboard-body').innerHTML = '';
+            const sorted = [...leaderboard].sort((a, b) => b.totalScore - a.totalScore);
+            sorted.forEach((entry, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${entry.name}</td>
+      <td>${entry.scores.easy || 0}</td>
+      <td>${entry.scores.medium || 0}</td>
+      <td>${entry.scores.complex || 0}</td>
+      <td>${entry.totalScore || 0}</td>
+    `;
+                document.getElementById('leaderboard-body').appendChild(tr);
+            });
+        }
+
+        /* --- Level complete popup --- */
+        function showLevelCompletePopup(level) {
+            document.getElementById('popup-message').textContent = `Successfully completed the ${level} level!`;
+            if (level === 'complex') {
+                document.getElementById('btn-try-next').style.display = 'none';
+            } else {
+                document.getElementById('btn-try-next').style.display = 'inline-block';
+            }
+            document.getElementById('level-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeLevelCompletePopup() {
+            document.getElementById('level-complete-popup').style.display = 'none';
+        }
+
+        function showDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'none';
+        }
+
+        /* --- Proceed to next level --- */
+        function proceedToNextLevel() {
+            if (gameState.difficulty === 'easy') setDifficulty('medium');
+            else if (gameState.difficulty === 'medium') setDifficulty('complex');
+            // Reset for new level
+            gameState.isActive = true;
+            gameState.challengesCompleted = 0;
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            updateStats();
+            document.getElementById('timer-display').textContent = `Challenge 1 of ${gameState.totalChallenges}`;
+            scheduleNextProduct();
+        }
+
+        /* --- Restart game --- */
+        function restartGame() {
+            resetGame();
+            setDifficulty('easy');
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('pause-btn').disabled = true;
+            document.getElementById('demo-btn').disabled = false;
+            document.getElementById('current-instruction').textContent = '🚀 Click START to begin your shift or TRY DEMO to practice!';
+            updateStats();
+        }
+
+        /* --- Reset game data --- */
+        function resetGame() {
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            gameState.challengesCompleted = 0;
+            gameState.levelScores = {
+                easy: 0,
+                medium: 0,
+                complex: 0
+            };
+            const belt = document.getElementById('conveyor-belt');
+            belt.innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target', 'correct', 'incorrect'));
+            if (productTimer) clearTimeout(productTimer);
+            gameState.currentProduct = null;
+            gameState.targetBin = null;
+        }
+
+        /* --- Play and pause --- */
+        function pauseGame() {
+            if (!gameState.isActive) return;
+            gameState.isPaused = !gameState.isPaused;
+            const btn = document.getElementById('pause-btn');
+            if (gameState.isPaused) {
+                btn.textContent = '▶️ RESUME';
+                clearTimeout(productTimer);
+                document.getElementById('current-instruction').textContent = '⏸️ Game Paused - Click RESUME to continue';
+            } else {
+                btn.textContent = '⏸️ PAUSE';
+                scheduleNextProduct();
+                const txt = gameState.isDemo ? '🎮 DEMO MODE - Practice stowing without affecting your scores!' : '👀 Watch for products and stow!';
+                document.getElementById('current-instruction').textContent = txt;
+            }
+        }
+
+        /* --- Schedule next product --- */
+        function scheduleNextProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            if (gameState.challengesCompleted >= gameState.totalChallenges) {
+                if (gameState.isDemo) {
+                    showDemoCompletePopup();
+                } else {
+                    addOrUpdateLeaderboardEntry();
+                    showLevelCompletePopup(gameState.difficulty);
+                }
+                return;
+            }
+            const delay = gameState.difficulty === 'easy' ? 4000 : (gameState.difficulty === 'medium') ? 3000 : 2000;
+            productTimer = setTimeout(showProduct, delay);
+        }
+
+        /* --- Show product --- */
+        function showProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            const belt = document.getElementById('conveyor-belt');
+            belt.innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target'));
+            gameState.currentProduct = products[Math.floor(Math.random() * products.length)];
+            gameState.targetBin = rows[Math.floor(Math.random() * rows.length)] + cols[Math.floor(Math.random() * cols.length)];
+            const prodDiv = document.createElement('div');
+            prodDiv.className = 'product-item';
+            let duration = '8s';
+            if (gameState.difficulty === 'medium') duration = '5.5s';
+            else if (gameState.difficulty === 'complex') duration = '4s';
+            prodDiv.style.animationDuration = duration;
+            prodDiv.innerHTML = `<div class="product-emoji">${gameState.currentProduct.emoji}</div><div class="product-info"><div class="product-name">${gameState.currentProduct.name}</div><div class="product-id">${gameState.currentProduct.id}</div></div>`;
+            belt.appendChild(prodDiv);
+            document.getElementById(`bin-${gameState.targetBin}`).classList.add('target');
+            document.getElementById('current-instruction').textContent = `📦 Stow ${gameState.currentProduct.name} in bin ${gameState.targetBin}`;
+        }
+
+        /* --- Handle Bin Click --- */
+        function handleBinClick(binId) {
+            if (!gameState.isActive || gameState.isPaused || !gameState.currentProduct) return;
+            const bin = document.getElementById(`bin-${binId}`);
+            if (binId === gameState.targetBin) {
+                // correct
+                bin.classList.add('correct');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.correctStows++;
+                    gameState.itemsStowed++;
+                    gameState.combo++;
+                    gameState.challengesCompleted++;
+                    let points = (gameState.difficulty === 'easy') ? 10 : (gameState.difficulty === 'medium') ? 15 : 25;
+                    if (gameState.combo > 1) points += gameState.combo * 2;
+                    gameState.score += points;
+                    gameState.levelScores[gameState.difficulty] += points;
+                    if (gameState.combo > gameState.bestCombo) gameState.bestCombo = gameState.combo;
+                    if (gameState.combo === 3) {
+                        showCombo('3x COMBO!');
+                        showAchievement('Getting Hot', 'Hit a 3x combo streak!');
+                    }
+                    if (gameState.combo === 5) {
+                        showCombo('PERFECT!');
+                        showAchievement('Stowing Master', 'Perfect 5x combo - All challenges completed flawlessly!');
+                    }
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                } else {
+                    gameState.challengesCompleted++;
+                }
+                bin.querySelector('.bin-content').textContent = gameState.currentProduct.emoji;
+                bin.classList.add('occupied');
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('correct', 'target');
+                    updateChallengeDisplay();
+                    scheduleNextProduct();
+                }, 1000);
+            } else {
+                // wrong
+                bin.classList.add('incorrect');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.combo = 0;
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                }
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('incorrect');
+                    scheduleNextProduct();
+                }, 1000);
+            }
+        }
+
+        /* --- Show combo --- */
+        function showCombo(text) {
+            const comboDiv = document.getElementById('combo-display');
+            comboDiv.textContent = text;
+            comboDiv.style.display = 'block';
+            setTimeout(() => {
+                comboDiv.style.display = 'none';
+            }, 1500);
+        }
+        /* --- Show achievement --- */
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievement-popup');
+            document.getElementById('achievement-title').textContent = title;
+            document.getElementById('achievement-text').textContent = text;
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 4000);
+        }
+
+        /* --- Update stats --- */
+        function updateStats() {
+            document.getElementById('total-score').textContent = gameState.score.toLocaleString();
+            document.getElementById('accuracy').textContent = gameState.accuracy + '%';
+            document.getElementById('items-stowed').textContent = gameState.itemsStowed;
+            document.getElementById('best-combo').textContent = gameState.bestCombo;
+        }
+
+        function updateChallengeDisplay() {
+            if (gameState.isDemo) {
+                document.getElementById('timer-display').textContent = 'DEMO MODE';
+            } else {
+                document.getElementById('timer-display').textContent = `Challenge ${gameState.challengesCompleted + 1} of ${gameState.totalChallenges}`;
+            }
+        }
+
+        /* --- Firebase Leaderboard update --- */
+        function addOrUpdateLeaderboardEntry() {
+            if (!userName) return;
+            const userRef = firebase.database().ref('leaderboard/' + userName);
+            userRef.once('value', (snapshot) => {
+                let data = snapshot.val() || {
+                    name: userName,
+                    scores: {},
+                    totalScore: 0
+                };
+                data.scores[gameState.difficulty] = gameState.score;
+                data.totalScore = Object.values(data.scores).reduce((a, b) => a + b, 0);
+                userRef.set(data);
+            });
+        }
+
+        /* --- Show Leaderboard --- */
+        function showLeaderboardScreen() {
+            updateLeaderboardTable();
+            document.getElementById('leaderboard-screen').style.display = 'block';
+            document.getElementById('game-container').style.display = 'none';
+        }
+
+        function closeLeaderboardScreen() {
+            document.getElementById('leaderboard-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+        }
+
+        function updateLeaderboardTable() {
+            document.getElementById('leaderboard-body').innerHTML = '';
+            const sorted = [...leaderboard].sort((a, b) => b.totalScore - a.totalScore);
+            sorted.forEach((entry, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${entry.name}</td>
+      <td>${entry.scores.easy || 0}</td>
+      <td>${entry.scores.medium || 0}</td>
+      <td>${entry.scores.complex || 0}</td>
+      <td>${entry.totalScore || 0}</td>
+    `;
+                document.getElementById('leaderboard-body').appendChild(tr);
+            });
+        }
+
+        /* --- Level complete popup --- */
+        function showLevelCompletePopup(level) {
+            document.getElementById('popup-message').textContent = `Successfully completed the ${level} level!`;
+            if (level === 'complex') {
+                document.getElementById('btn-try-next').style.display = 'none';
+            } else {
+                document.getElementById('btn-try-next').style.display = 'inline-block';
+            }
+            document.getElementById('level-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeLevelCompletePopup() {
+            document.getElementById('level-complete-popup').style.display = 'none';
+        }
+
+        function showDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'none';
+        }
+
+        /* --- Proceed to next level --- */
+        function proceedToNextLevel() {
+            if (gameState.difficulty === 'easy') setDifficulty('medium');
+            else if (gameState.difficulty === 'medium') setDifficulty('complex');
+            // Reset for new level
+            gameState.isActive = true;
+            gameState.challengesCompleted = 0;
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            updateStats();
+            document.getElementById('timer-display').textContent = `Challenge 1 of ${gameState.totalChallenges}`;
+            scheduleNextProduct();
+        }
+
+        /* --- Restart game --- */
+        function restartGame() {
+            resetGame();
+            setDifficulty('easy');
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('pause-btn').disabled = true;
+            document.getElementById('demo-btn').disabled = false;
+            document.getElementById('current-instruction').textContent = '🚀 Click START to begin your shift or TRY DEMO to practice!';
+            updateStats();
+        }
+
+        /* --- Reset game data --- */
+        function resetGame() {
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            gameState.challengesCompleted = 0;
+            gameState.levelScores = {
+                easy: 0,
+                medium: 0,
+                complex: 0
+            };
+            const belt = document.getElementById('conveyor-belt');
+            belt.innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target', 'correct', 'incorrect'));
+            if (productTimer) clearTimeout(productTimer);
+            gameState.currentProduct = null;
+            gameState.targetBin = null;
+        }
+
+        /* --- Play/Pause --- */
+        function pauseGame() {
+            if (!gameState.isActive) return;
+            gameState.isPaused = !gameState.isPaused;
+            const btn = document.getElementById('pause-btn');
+            if (gameState.isPaused) {
+                btn.textContent = '▶️ RESUME';
+                clearTimeout(productTimer);
+                document.getElementById('current-instruction').textContent = '⏸️ Game Paused - Click RESUME to continue';
+            } else {
+                btn.textContent = '⏸️ PAUSE';
+                scheduleNextProduct();
+                const txt = gameState.isDemo ? '🎮 DEMO MODE - Practice stowing without affecting your scores!' : '👀 Watch for products and stow!';
+                document.getElementById('current-instruction').textContent = txt;
+            }
+        }
+
+        /* --- Schedule next product --- */
+        function scheduleNextProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            if (gameState.challengesCompleted >= gameState.totalChallenges) {
+                if (gameState.isDemo) {
+                    showDemoCompletePopup();
+                } else {
+                    addOrUpdateLeaderboardEntry();
+                    showLevelCompletePopup(gameState.difficulty);
+                }
+                return;
+            }
+            const delay = gameState.difficulty === 'easy' ? 4000 : (gameState.difficulty === 'medium') ? 3000 : 2000;
+            productTimer = setTimeout(showProduct, delay);
+        }
+
+        /* --- Show product --- */
+        function showProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            const belt = document.getElementById('conveyor-belt');
+            belt.innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target'));
+            gameState.currentProduct = products[Math.floor(Math.random() * products.length)];
+            gameState.targetBin = rows[Math.floor(Math.random() * rows.length)] + cols[Math.floor(Math.random() * cols.length)];
+            const prodDiv = document.createElement('div');
+            prodDiv.className = 'product-item';
+            let duration = '8s';
+            if (gameState.difficulty === 'medium') duration = '5.5s';
+            else if (gameState.difficulty === 'complex') duration = '4s';
+            prodDiv.style.animationDuration = duration;
+            prodDiv.innerHTML = `<div class="product-emoji">${gameState.currentProduct.emoji}</div><div class="product-info"><div class="product-name">${gameState.currentProduct.name}</div><div class="product-id">${gameState.currentProduct.id}</div></div>`;
+            belt.appendChild(prodDiv);
+            document.getElementById(`bin-${gameState.targetBin}`).classList.add('target');
+            document.getElementById('current-instruction').textContent = `📦 Stow ${gameState.currentProduct.name} in bin ${gameState.targetBin}`;
+        }
+
+        /* --- Handle Bin Click --- */
+        function handleBinClick(binId) {
+            if (!gameState.isActive || gameState.isPaused || !gameState.currentProduct) return;
+            const bin = document.getElementById(`bin-${binId}`);
+            if (binId === gameState.targetBin) {
+                // correct
+                bin.classList.add('correct');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.correctStows++;
+                    gameState.itemsStowed++;
+                    gameState.combo++;
+                    gameState.challengesCompleted++;
+                    let points = (gameState.difficulty === 'easy') ? 10 : (gameState.difficulty === 'medium') ? 15 : 25;
+                    if (gameState.combo > 1) points += gameState.combo * 2;
+                    gameState.score += points;
+                    gameState.levelScores[gameState.difficulty] += points;
+                    if (gameState.combo > gameState.bestCombo) gameState.bestCombo = gameState.combo;
+                    if (gameState.combo === 3) {
+                        showCombo('3x COMBO!');
+                        showAchievement('Getting Hot', 'Hit a 3x combo streak!');
+                    }
+                    if (gameState.combo === 5) {
+                        showCombo('PERFECT!');
+                        showAchievement('Stowing Master', 'Perfect 5x combo - All challenges completed flawlessly!');
+                    }
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                } else {
+                    gameState.challengesCompleted++;
+                }
+                bin.querySelector('.bin-content').textContent = gameState.currentProduct.emoji;
+                bin.classList.add('occupied');
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('correct', 'target');
+                    updateChallengeDisplay();
+                    scheduleNextProduct();
+                }, 1000);
+            } else {
+                // wrong
+                bin.classList.add('incorrect');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.combo = 0;
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                }
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('incorrect');
+                    scheduleNextProduct();
+                }, 1000);
+            }
+        }
+
+        /* --- Show combo --- */
+        function showCombo(text) {
+            const comboDiv = document.getElementById('combo-display');
+            comboDiv.textContent = text;
+            comboDiv.style.display = 'block';
+            setTimeout(() => {
+                comboDiv.style.display = 'none';
+            }, 1500);
+        }
+        /* --- Show achievement --- */
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievement-popup');
+            document.getElementById('achievement-title').textContent = title;
+            document.getElementById('achievement-text').textContent = text;
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 4000);
+        }
+
+        /* --- Update stats --- */
+        function updateStats() {
+            document.getElementById('total-score').textContent = gameState.score.toLocaleString();
+            document.getElementById('accuracy').textContent = gameState.accuracy + '%';
+            document.getElementById('items-stowed').textContent = gameState.itemsStowed;
+            document.getElementById('best-combo').textContent = gameState.bestCombo;
+        }
+
+        function updateChallengeDisplay() {
+            if (gameState.isDemo) {
+                document.getElementById('timer-display').textContent = 'DEMO MODE';
+            } else {
+                document.getElementById('timer-display').textContent = `Challenge ${gameState.challengesCompleted + 1} of ${gameState.totalChallenges}`;
+            }
+        }
+
+        /* --- Firebase Leaderboard update --- */
+        function addOrUpdateLeaderboardEntry() {
+            if (!userName) return;
+            const userRef = firebase.database().ref('leaderboard/' + userName);
+            userRef.once('value', (snapshot) => {
+                let data = snapshot.val() || {
+                    name: userName,
+                    scores: {},
+                    totalScore: 0
+                };
+                data.scores[gameState.difficulty] = gameState.score;
+                data.totalScore = Object.values(data.scores).reduce((a, b) => a + b, 0);
+                userRef.set(data);
+            });
+        }
+
+        /* --- Show leaderboard --- */
+        function showLeaderboardScreen() {
+            updateLeaderboardTable();
+            document.getElementById('leaderboard-screen').style.display = 'block';
+            document.getElementById('game-container').style.display = 'none';
+        }
+
+        function closeLeaderboardScreen() {
+            document.getElementById('leaderboard-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+        }
+
+        function updateLeaderboardTable() {
+            document.getElementById('leaderboard-body').innerHTML = '';
+            const sorted = [...leaderboard].sort((a, b) => b.totalScore - a.totalScore);
+            sorted.forEach((entry, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${entry.name}</td>
+      <td>${entry.scores.easy || 0}</td>
+      <td>${entry.scores.medium || 0}</td>
+      <td>${entry.scores.complex || 0}</td>
+      <td>${entry.totalScore || 0}</td>
+    `;
+                document.getElementById('leaderboard-body').appendChild(tr);
+            });
+        }
+
+        /* --- Level complete popup --- */
+        function showLevelCompletePopup(level) {
+            document.getElementById('popup-message').textContent = `Successfully completed the ${level} level!`;
+            if (level === 'complex') {
+                document.getElementById('btn-try-next').style.display = 'none';
+            } else {
+                document.getElementById('btn-try-next').style.display = 'inline-block';
+            }
+            document.getElementById('level-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeLevelCompletePopup() {
+            document.getElementById('level-complete-popup').style.display = 'none';
+        }
+
+        function showDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'none';
+        }
+
+        /* --- Proceed to next level --- */
+        function proceedToNextLevel() {
+            if (gameState.difficulty === 'easy') setDifficulty('medium');
+            else if (gameState.difficulty === 'medium') setDifficulty('complex');
+            // Reset for new level
+            gameState.isActive = true;
+            gameState.challengesCompleted = 0;
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            updateStats();
+            document.getElementById('timer-display').textContent = `Challenge 1 of ${gameState.totalChallenges}`;
+            scheduleNextProduct();
+        }
+
+        /* --- Restart game --- */
+        function restartGame() {
+            resetGame();
+            setDifficulty('easy');
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('pause-btn').disabled = true;
+            document.getElementById('demo-btn').disabled = false;
+            document.getElementById('current-instruction').textContent = '🚀 Click START to begin your shift or TRY DEMO to practice!';
+            updateStats();
+        }
+
+        /* --- Reset game data --- */
+        function resetGame() {
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            gameState.challengesCompleted = 0;
+            gameState.levelScores = {
+                easy: 0,
+                medium: 0,
+                complex: 0
+            };
+            document.getElementById('conveyor-belt').innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target', 'correct', 'incorrect'));
+            if (productTimer) clearTimeout(productTimer);
+            gameState.currentProduct = null;
+            gameState.targetBin = null;
+        }
+
+        /* --- Play/Pause --- */
+        function pauseGame() {
+            if (!gameState.isActive) return;
+            gameState.isPaused = !gameState.isPaused;
+            const btn = document.getElementById('pause-btn');
+            if (gameState.isPaused) {
+                btn.textContent = '▶️ RESUME';
+                clearTimeout(productTimer);
+                document.getElementById('current-instruction').textContent = '⏸️ Game Paused - Click RESUME to continue';
+            } else {
+                btn.textContent = '⏸️ PAUSE';
+                scheduleNextProduct();
+                const txt = gameState.isDemo ? '🎮 DEMO MODE - Practice stowing without affecting your scores!' : '👀 Watch for products and stow!';
+                document.getElementById('current-instruction').textContent = txt;
+            }
+        }
+
+        /* --- Schedule next product --- */
+        function scheduleNextProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            if (gameState.challengesCompleted >= gameState.totalChallenges) {
+                if (gameState.isDemo) {
+                    showDemoCompletePopup();
+                } else {
+                    addOrUpdateLeaderboardEntry();
+                    showLevelCompletePopup(gameState.difficulty);
+                }
+                return;
+            }
+            const delay = gameState.difficulty === 'easy' ? 4000 : (gameState.difficulty === 'medium') ? 3000 : 2000;
+            productTimer = setTimeout(showProduct, delay);
+        }
+
+        /* --- Show product --- */
+        function showProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            const belt = document.getElementById('conveyor-belt');
+            belt.innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target'));
+            gameState.currentProduct = products[Math.floor(Math.random() * products.length)];
+            gameState.targetBin = rows[Math.floor(Math.random() * rows.length)] + cols[Math.floor(Math.random() * cols.length)];
+            const prodDiv = document.createElement('div');
+            prodDiv.className = 'product-item';
+            let duration = '8s';
+            if (gameState.difficulty === 'medium') duration = '5.5s';
+            else if (gameState.difficulty === 'complex') duration = '4s';
+            prodDiv.style.animationDuration = duration;
+            prodDiv.innerHTML = `<div class="product-emoji">${gameState.currentProduct.emoji}</div><div class="product-info"><div class="product-name">${gameState.currentProduct.name}</div><div class="product-id">${gameState.currentProduct.id}</div></div>`;
+            belt.appendChild(prodDiv);
+            document.getElementById(`bin-${gameState.targetBin}`).classList.add('target');
+            document.getElementById('current-instruction').textContent = `📦 Stow ${gameState.currentProduct.name} in bin ${gameState.targetBin}`;
+        }
+
+        /* --- Handle Bin Click --- */
+        function handleBinClick(binId) {
+            if (!gameState.isActive || gameState.isPaused || !gameState.currentProduct) return;
+            const bin = document.getElementById(`bin-${binId}`);
+            if (binId === gameState.targetBin) {
+                // correct
+                bin.classList.add('correct');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.correctStows++;
+                    gameState.itemsStowed++;
+                    gameState.combo++;
+                    gameState.challengesCompleted++;
+                    let points = (gameState.difficulty === 'easy') ? 10 : (gameState.difficulty === 'medium') ? 15 : 25;
+                    if (gameState.combo > 1) points += gameState.combo * 2;
+                    gameState.score += points;
+                    gameState.levelScores[gameState.difficulty] += points;
+                    if (gameState.combo > gameState.bestCombo) gameState.bestCombo = gameState.combo;
+                    if (gameState.combo === 3) {
+                        showCombo('3x COMBO!');
+                        showAchievement('Getting Hot', 'Hit a 3x combo streak!');
+                    }
+                    if (gameState.combo === 5) {
+                        showCombo('PERFECT!');
+                        showAchievement('Stowing Master', 'Perfect 5x combo - All challenges completed flawlessly!');
+                    }
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                } else {
+                    gameState.challengesCompleted++;
+                }
+                bin.querySelector('.bin-content').textContent = gameState.currentProduct.emoji;
+                bin.classList.add('occupied');
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('correct', 'target');
+                    updateChallengeDisplay();
+                    scheduleNextProduct();
+                }, 1000);
+            } else {
+                // wrong
+                bin.classList.add('incorrect');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.combo = 0;
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                }
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('incorrect');
+                    scheduleNextProduct();
+                }, 1000);
+            }
+        }
+
+        /* --- Show combo --- */
+        function showCombo(text) {
+            const comboDiv = document.getElementById('combo-display');
+            comboDiv.textContent = text;
+            comboDiv.style.display = 'block';
+            setTimeout(() => {
+                comboDiv.style.display = 'none';
+            }, 1500);
+        }
+        /* --- Show achievement --- */
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievement-popup');
+            document.getElementById('achievement-title').textContent = title;
+            document.getElementById('achievement-text').textContent = text;
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 4000);
+        }
+
+        /* --- Update stats --- */
+        function updateStats() {
+            document.getElementById('total-score').textContent = gameState.score.toLocaleString();
+            document.getElementById('accuracy').textContent = gameState.accuracy + '%';
+            document.getElementById('items-stowed').textContent = gameState.itemsStowed;
+            document.getElementById('best-combo').textContent = gameState.bestCombo;
+        }
+
+        function updateChallengeDisplay() {
+            if (gameState.isDemo) {
+                document.getElementById('timer-display').textContent = 'DEMO MODE';
+            } else {
+                document.getElementById('timer-display').textContent = `Challenge ${gameState.challengesCompleted + 1} of ${gameState.totalChallenges}`;
+            }
+        }
+
+        /* --- Save user data to Firebase --- */
+        function addOrUpdateLeaderboardEntry() {
+            if (!userName) return;
+            const userRef = firebase.database().ref('leaderboard/' + userName);
+            userRef.once('value', (snapshot) => {
+                let data = snapshot.val() || {
+                    name: userName,
+                    scores: {},
+                    totalScore: 0
+                };
+                data.scores[gameState.difficulty] = gameState.score;
+                data.totalScore = Object.values(data.scores).reduce((a, b) => a + b, 0);
+                userRef.set(data);
+            });
+        }
+
+        /* --- Show leaderboard --- */
+        function showLeaderboardScreen() {
+            updateLeaderboardTable();
+            document.getElementById('leaderboard-screen').style.display = 'block';
+            document.getElementById('game-container').style.display = 'none';
+        }
+
+        function closeLeaderboardScreen() {
+            document.getElementById('leaderboard-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+        }
+
+        function updateLeaderboardTable() {
+            document.getElementById('leaderboard-body').innerHTML = '';
+            const sorted = [...leaderboard].sort((a, b) => b.totalScore - a.totalScore);
+            sorted.forEach((entry, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${entry.name}</td>
+      <td>${entry.scores.easy || 0}</td>
+      <td>${entry.scores.medium || 0}</td>
+      <td>${entry.scores.complex || 0}</td>
+      <td>${entry.totalScore || 0}</td>
+    `;
+                document.getElementById('leaderboard-body').appendChild(tr);
+            });
+        }
+
+        /* --- Level complete popup --- */
+        function showLevelCompletePopup(level) {
+            document.getElementById('popup-message').textContent = `Successfully completed the ${level} level!`;
+            if (level === 'complex') {
+                document.getElementById('btn-try-next').style.display = 'none';
+            } else {
+                document.getElementById('btn-try-next').style.display = 'inline-block';
+            }
+            document.getElementById('level-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeLevelCompletePopup() {
+            document.getElementById('level-complete-popup').style.display = 'none';
+        }
+
+        function showDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'none';
+        }
+
+        /* --- Proceed to next level --- */
+        function proceedToNextLevel() {
+            if (gameState.difficulty === 'easy') setDifficulty('medium');
+            else if (gameState.difficulty === 'medium') setDifficulty('complex');
+            // Reset for new level
+            gameState.isActive = true;
+            gameState.challengesCompleted = 0;
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            updateStats();
+            document.getElementById('timer-display').textContent = `Challenge 1 of ${gameState.totalChallenges}`;
+            scheduleNextProduct();
+        }
+
+        /* --- User interaction handlers --- */
+        document.getElementById('submit-name-btn').onclick = () => {
+            const name = document.getElementById('user-name-input').value.trim();
+            if (!name) {
+                alert("Please enter your name");
+                document.getElementById('user-name-input').focus();
+                return;
+            }
+            userName = name;
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
             initializeGame();
         };
+
+        document.getElementById('leaderboard-button').onclick = () => {
+            addOrUpdateLeaderboardEntry();
+            showLeaderboardScreen();
+        };
+        document.getElementById('leaderboard-back-btn').onclick = () => {
+            closeLeaderboardScreen();
+        };
+        document.getElementById('btn-try-next').onclick = () => {
+            closeLevelCompletePopup();
+            proceedToNextLevel();
+        };
+        document.getElementById('btn-exit').onclick = () => {
+            closeLevelCompletePopup();
+            addOrUpdateLeaderboardEntry();
+            showLeaderboardScreen();
+        };
+        document.getElementById('btn-try-low-level').onclick = () => {
+            closeDemoCompletePopup();
+            restartGame();
+        };
+        document.getElementById('btn-exit-demo').onclick = () => {
+            closeDemoCompletePopup();
+            initializeGame();
+        };
+
+        /* --- Schedule next product --- */
+        function scheduleNextProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            if (gameState.challengesCompleted >= gameState.totalChallenges) {
+                if (gameState.isDemo) {
+                    showDemoCompletePopup();
+                } else {
+                    addOrUpdateLeaderboardEntry();
+                    showLevelCompletePopup(gameState.difficulty);
+                }
+                return;
+            }
+            const delay = gameState.difficulty === 'easy' ? 4000 : (gameState.difficulty === 'medium') ? 3000 : 2000;
+            productTimer = setTimeout(showProduct, delay);
+        }
+
+        /* --- Show product --- */
+        function showProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            const belt = document.getElementById('conveyor-belt');
+            belt.innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target'));
+            gameState.currentProduct = products[Math.floor(Math.random() * products.length)];
+            gameState.targetBin = rows[Math.floor(Math.random() * rows.length)] + cols[Math.floor(Math.random() * cols.length)];
+            const prodDiv = document.createElement('div');
+            prodDiv.className = 'product-item';
+            let duration = '8s';
+            if (gameState.difficulty === 'medium') duration = '5.5s';
+            else if (gameState.difficulty === 'complex') duration = '4s';
+            prodDiv.style.animationDuration = duration;
+            prodDiv.innerHTML = `<div class="product-emoji">${gameState.currentProduct.emoji}</div><div class="product-info"><div class="product-name">${gameState.currentProduct.name}</div><div class="product-id">${gameState.currentProduct.id}</div></div>`;
+            belt.appendChild(prodDiv);
+            document.getElementById(`bin-${gameState.targetBin}`).classList.add('target');
+            document.getElementById('current-instruction').textContent = `📦 Stow ${gameState.currentProduct.name} in bin ${gameState.targetBin}`;
+        }
+
+        /* --- Handle Bin Click --- */
+        function handleBinClick(binId) {
+            if (!gameState.isActive || gameState.isPaused || !gameState.currentProduct) return;
+            const bin = document.getElementById(`bin-${binId}`);
+            if (binId === gameState.targetBin) {
+                // correct
+                bin.classList.add('correct');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.correctStows++;
+                    gameState.itemsStowed++;
+                    gameState.combo++;
+                    gameState.challengesCompleted++;
+                    let points = (gameState.difficulty === 'easy') ? 10 : (gameState.difficulty === 'medium') ? 15 : 25;
+                    if (gameState.combo > 1) points += gameState.combo * 2;
+                    gameState.score += points;
+                    gameState.levelScores[gameState.difficulty] += points;
+                    if (gameState.combo > gameState.bestCombo) gameState.bestCombo = gameState.combo;
+                    if (gameState.combo === 3) {
+                        showCombo('3x COMBO!');
+                        showAchievement('Getting Hot', 'Hit a 3x combo streak!');
+                    }
+                    if (gameState.combo === 5) {
+                        showCombo('PERFECT!');
+                        showAchievement('Stowing Master', 'Perfect 5x combo - All challenges completed flawlessly!');
+                    }
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                } else {
+                    gameState.challengesCompleted++;
+                }
+                bin.querySelector('.bin-content').textContent = gameState.currentProduct.emoji;
+                bin.classList.add('occupied');
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('correct', 'target');
+                    updateChallengeDisplay();
+                    scheduleNextProduct();
+                }, 1000);
+            } else {
+                // wrong
+                bin.classList.add('incorrect');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.combo = 0;
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                }
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('incorrect');
+                    scheduleNextProduct();
+                }, 1000);
+            }
+        }
+
+        /* --- Show combo --- */
+        function showCombo(text) {
+            const comboDiv = document.getElementById('combo-display');
+            comboDiv.textContent = text;
+            comboDiv.style.display = 'block';
+            setTimeout(() => {
+                comboDiv.style.display = 'none';
+            }, 1500);
+        }
+        /* --- Show achievement --- */
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievement-popup');
+            document.getElementById('achievement-title').textContent = title;
+            document.getElementById('achievement-text').textContent = text;
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 4000);
+        }
+
+        /* --- Update stats --- */
+        function updateStats() {
+            document.getElementById('total-score').textContent = gameState.score.toLocaleString();
+            document.getElementById('accuracy').textContent = gameState.accuracy + '%';
+            document.getElementById('items-stowed').textContent = gameState.itemsStowed;
+            document.getElementById('best-combo').textContent = gameState.bestCombo;
+        }
+
+        function updateChallengeDisplay() {
+            if (gameState.isDemo) {
+                document.getElementById('timer-display').textContent = 'DEMO MODE';
+            } else {
+                document.getElementById('timer-display').textContent = `Challenge ${gameState.challengesCompleted + 1} of ${gameState.totalChallenges}`;
+            }
+        }
+
+        /* --- Save user data to Firebase on game end --- */
+        function saveUserScore() {
+            if (!userName) return;
+            const userRef = firebase.database().ref('leaderboard/' + userName);
+            userRef.once('value', (snapshot) => {
+                let data = snapshot.val() || {
+                    name: userName,
+                    scores: {},
+                    totalScore: 0
+                };
+                data.scores[gameState.difficulty] = gameState.score;
+                data.totalScore = Object.values(data.scores).reduce((a, b) => a + b, 0);
+                userRef.set(data);
+            });
+        }
+
+        /* --- Show leaderboard --- */
+        function showLeaderboardScreen() {
+            updateLeaderboardTable();
+            document.getElementById('leaderboard-screen').style.display = 'block';
+            document.getElementById('game-container').style.display = 'none';
+        }
+
+        function closeLeaderboardScreen() {
+            document.getElementById('leaderboard-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+        }
+
+        function updateLeaderboardTable() {
+            document.getElementById('leaderboard-body').innerHTML = '';
+            const sorted = [...leaderboard].sort((a, b) => b.totalScore - a.totalScore);
+            sorted.forEach((entry, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${entry.name}</td>
+      <td>${entry.scores.easy || 0}</td>
+      <td>${entry.scores.medium || 0}</td>
+      <td>${entry.scores.complex || 0}</td>
+      <td>${entry.totalScore || 0}</td>
+    `;
+                document.getElementById('leaderboard-body').appendChild(tr);
+            });
+        }
+
+        /* --- Level complete --- */
+        function showLevelCompletePopup(level) {
+            document.getElementById('popup-message').textContent = `Successfully completed the ${level} level!`;
+            if (level === 'complex') {
+                document.getElementById('btn-try-next').style.display = 'none';
+            } else {
+                document.getElementById('btn-try-next').style.display = 'inline-block';
+            }
+            document.getElementById('level-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeLevelCompletePopup() {
+            document.getElementById('level-complete-popup').style.display = 'none';
+        }
+
+        function showDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'block';
+            pauseGame();
+        }
+
+        function closeDemoCompletePopup() {
+            document.getElementById('demo-complete-popup').style.display = 'none';
+        }
+
+        /* --- Proceed to next level --- */
+        function proceedToNextLevel() {
+            if (gameState.difficulty === 'easy') setDifficulty('medium');
+            else if (gameState.difficulty === 'medium') setDifficulty('complex');
+            // Reset for new level
+            gameState.isActive = true;
+            gameState.challengesCompleted = 0;
+            gameState.score = 0;
+            gameState.accuracy = 100;
+            gameState.itemsStowed = 0;
+            gameState.correctStows = 0;
+            gameState.totalAttempts = 0;
+            gameState.combo = 0;
+            gameState.bestCombo = 0;
+            updateStats();
+            document.getElementById('timer-display').textContent = `Challenge 1 of ${gameState.totalChallenges}`;
+            scheduleNextProduct();
+        }
+
+        /* --- User interactions --- */
+        document.getElementById('submit-name-btn').onclick = () => {
+            const name = document.getElementById('user-name-input').value.trim();
+            if (!name) {
+                alert("Please enter your name");
+                document.getElementById('user-name-input').focus();
+                return;
+            }
+            userName = name;
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+            initializeGame();
+        };
+
+        document.getElementById('leaderboard-button').onclick = () => {
+            addOrUpdateLeaderboardEntry();
+            showLeaderboardScreen();
+        };
+        document.getElementById('leaderboard-back-btn').onclick = () => {
+            closeLeaderboardScreen();
+        };
+        document.getElementById('btn-try-next').onclick = () => {
+            closeLevelCompletePopup();
+            proceedToNextLevel();
+        };
+        document.getElementById('btn-exit').onclick = () => {
+            closeLevelCompletePopup();
+            addOrUpdateLeaderboardEntry();
+            showLeaderboardScreen();
+        };
+        document.getElementById('btn-try-low-level').onclick = () => {
+            closeDemoCompletePopup();
+            restartGame();
+        };
+        document.getElementById('btn-exit-demo').onclick = () => {
+            closeDemoCompletePopup();
+            initializeGame();
+        };
+
+        /* --- Schedule next product --- */
+        function scheduleNextProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            if (gameState.challengesCompleted >= gameState.totalChallenges) {
+                if (gameState.isDemo) {
+                    showDemoCompletePopup();
+                } else {
+                    addOrUpdateLeaderboardEntry();
+                    showLevelCompletePopup(gameState.difficulty);
+                }
+                return;
+            }
+            const delay = gameState.difficulty === 'easy' ? 4000 : (gameState.difficulty === 'medium') ? 3000 : 2000;
+            productTimer = setTimeout(showProduct, delay);
+        }
+
+        /* --- Show product --- */
+        function showProduct() {
+            if (!gameState.isActive || gameState.isPaused) return;
+            const belt = document.getElementById('conveyor-belt');
+            belt.innerHTML = '';
+            document.querySelectorAll('.bin').forEach(b => b.classList.remove('target'));
+            gameState.currentProduct = products[Math.floor(Math.random() * products.length)];
+            gameState.targetBin = rows[Math.floor(Math.random() * rows.length)] + cols[Math.floor(Math.random() * cols.length)];
+            const prodDiv = document.createElement('div');
+            prodDiv.className = 'product-item';
+            let duration = '8s';
+            if (gameState.difficulty === 'medium') duration = '5.5s';
+            else if (gameState.difficulty === 'complex') duration = '4s';
+            prodDiv.style.animationDuration = duration;
+            prodDiv.innerHTML = `<div class="product-emoji">${gameState.currentProduct.emoji}</div><div class="product-info"><div class="product-name">${gameState.currentProduct.name}</div><div class="product-id">${gameState.currentProduct.id}</div></div>`;
+            belt.appendChild(prodDiv);
+            document.getElementById(`bin-${gameState.targetBin}`).classList.add('target');
+            document.getElementById('current-instruction').textContent = `📦 Stow ${gameState.currentProduct.name} in bin ${gameState.targetBin}`;
+        }
+
+        /* --- Handle Bin Click --- */
+        function handleBinClick(binId) {
+            if (!gameState.isActive || gameState.isPaused || !gameState.currentProduct) return;
+            const bin = document.getElementById(`bin-${binId}`);
+            if (binId === gameState.targetBin) {
+                // correct
+                bin.classList.add('correct');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.correctStows++;
+                    gameState.itemsStowed++;
+                    gameState.combo++;
+                    gameState.challengesCompleted++;
+                    let points = (gameState.difficulty === 'easy') ? 10 : (gameState.difficulty === 'medium') ? 15 : 25;
+                    if (gameState.combo > 1) points += gameState.combo * 2;
+                    gameState.score += points;
+                    gameState.levelScores[gameState.difficulty] += points;
+                    if (gameState.combo > gameState.bestCombo) gameState.bestCombo = gameState.combo;
+                    if (gameState.combo === 3) {
+                        showCombo('3x COMBO!');
+                        showAchievement('Getting Hot', 'Hit a 3x combo streak!');
+                    }
+                    if (gameState.combo === 5) {
+                        showCombo('PERFECT!');
+                        showAchievement('Stowing Master', 'Perfect 5x combo - All challenges completed flawlessly!');
+                    }
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                } else {
+                    gameState.challengesCompleted++;
+                }
+                bin.querySelector('.bin-content').textContent = gameState.currentProduct.emoji;
+                bin.classList.add('occupied');
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('correct', 'target');
+                    updateChallengeDisplay();
+                    scheduleNextProduct();
+                }, 1000);
+            } else {
+                // wrong
+                bin.classList.add('incorrect');
+                if (!gameState.isDemo) {
+                    gameState.totalAttempts++;
+                    gameState.combo = 0;
+                    gameState.accuracy = Math.round(gameState.correctStows / gameState.totalAttempts * 100);
+                    updateStats();
+                }
+                // clear product
+                gameState.currentProduct = null;
+                gameState.targetBin = null;
+                setTimeout(() => {
+                    bin.classList.remove('incorrect');
+                    scheduleNextProduct();
+                }, 1000);
+            }
+        }
+
+        /* --- Show combo --- */
+        function showCombo(text) {
+            const comboDiv = document.getElementById('combo-display');
+            comboDiv.textContent = text;
+            comboDiv.style.display = 'block';
+            setTimeout(() => {
+                comboDiv.style.display = 'none';
+            }, 1500);
+        }
+        /* --- Show achievement --- */
+        function showAchievement(title, text) {
+            const popup = document.getElementById('achievement-popup');
+            document.getElementById('achievement-title').textContent = title;
+            document.getElementById('achievement-text').textContent = text;
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 4000);
+        }
+
+        /* --- Update stats --- */
+        function updateStats() {
+            document.getElementById('total-score').textContent = gameState.score.toLocaleString();
+            document.getElementById('accuracy').textContent = gameState.accuracy + '%';
+            document.getElementById('items-stowed').textContent = gameState.itemsStowed;
+            document.getElementById('best-combo').textContent = gameState.bestCombo;
+        }
+
+        function updateChallengeDisplay() {
+            if (gameState.isDemo) {
+                document.getElementById('timer-display').textContent = 'DEMO MODE';
+            } else {
+                document.getElementById('timer-display').textContent = `Challenge ${gameState.challengesCompleted + 1} of ${gameState.totalChallenges}`;
+            }
+        }
+
+        /* --- Save user score at game end --- */
+        function saveUserScore() {
+            if (!userName) return;
+            const userRef = firebase.database().ref('leaderboard/' + userName);
+            userRef.once('value', (snapshot) => {
+                let data = snapshot.val() || {
+                    name: userName,
+                    scores: {},
+                    totalScore: 0
+                };
+                data.scores[gameState.difficulty] = gameState.score;
+                data.totalScore = Object.values(data.scores).reduce((a, b) => a + b, 0);
+                userRef.set(data);
+            });
+        }
+
+        /* --- Show leaderboard --- */
+        function showLeaderboardScreen() {
+            updateLeaderboardTable();
+            document.getElementById('leaderboard-screen').style.display = 'block';
+            document.getElementById('game-container').style.display = 'none';
+        }
+
+        function closeLeaderboardScreen() {
+            document.getElementById('leaderboard-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+        }
+
+        function updateLeaderboardTable() {
+            document.getElementById('leaderboard-body').innerHTML = '';
+            const sorted = [...leaderboard].sort((a, b) => b.totalScore - a.totalScore);
+            sorted.forEach((entry, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${entry.name}</td>
+      <td>${entry.scores.easy || 0}</td>
+      <td>${entry.scores.medium || 0}</td>
+      <td>${entry.scores.complex || 0}</td>
+      <td>${entry.totalScore || 0}</td>
+    `;
+                document.getElementById('leaderboard-body').appendChild(tr);
+            });
+        }
+
+        /* --- When game is over or user submits score --- */
+        function endGame() {
+            addOrUpdateLeaderboardEntry();
+            showLeaderboardScreen();
+        }
+
+        /* --- Button handlers --- */
+        document.getElementById('submit-name-btn').onclick = () => {
+            const name = document.getElementById('user-name-input').value.trim();
+            if (!name) {
+                alert("Please enter your name");
+                document.getElementById('user-name-input').focus();
+                return;
+            }
+            userName = name;
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+            initializeGame();
+        };
+
+        // other event handlers as your code...
     </script>
 </body>
 
