@@ -168,6 +168,7 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
+            font-weight: 900;
         }
 
         .header p {
@@ -889,7 +890,7 @@
         </div>
 
         <div class="timer-container">
-            <span class="global-timer" id="global-timer">Time Left: 10:00</span>
+            <span class="global-timer" id="global-timer">Time Left: 06:00</span>
         </div>
 
         <div class="game-header">
@@ -1038,9 +1039,11 @@
         let productTimer;
         let animationTimeout; // To track product animation
         let gameClock; // Timer for the 1-minute game
-        const GAME_DURATION_SECONDS = 600;
+        let gameStartTime; // Store the start time for bonus calculation
+        const GAME_DURATION_SECONDS = 360; // 6 minutes
         const LEADERBOARD_PAGE_SIZE = 10;
         let currentPage = 1;
+        let totalTimeBonus = 0; // New variable to hold the final time bonus
 
         const products = [{
             emoji: '📱',
@@ -1173,6 +1176,8 @@
         const totalUsersCountSpan = document.getElementById('total-users-count');
         const globalTimerDisplay = document.getElementById('global-timer');
         const challengeTimerDisplay = document.getElementById('challenge-timer');
+        let timeRemaining = GAME_DURATION_SECONDS;
+
 
         /* --- Firebase Leaderboard Setup --- */
         function setupLeaderboardListener() {
@@ -1284,13 +1289,14 @@
             gameState.isActive = true;
             gameState.isPaused = false;
             gameState.isDemo = false;
+            gameStartTime = Date.now(); // Record start time for bonus calculation
             document.getElementById('start-btn').disabled = true;
             document.getElementById('pause-btn').disabled = false;
             document.getElementById('demo-btn').disabled = true;
             document.getElementById('current-instruction').textContent = '👀 Watch for products on the conveyor belt and stow them in the highlighted bins!';
             document.getElementById('game-instructions').style.display = 'none';
 
-            // Start the global 1-minute game timer
+            // Start the global 6-minute game timer
             let timeRemaining = GAME_DURATION_SECONDS;
             updateGlobalTimerDisplay(timeRemaining);
             gameClock = setInterval(() => {
@@ -1395,13 +1401,13 @@
         /* --- Schedule next product --- */
         function scheduleNextProduct() {
             if (!gameState.isActive || gameState.isPaused) return;
-            
+
             // This condition is now only for demo mode, as the main game ends via the global timer.
             if (gameState.isDemo && gameState.challengesCompleted >= gameState.totalChallenges) {
                 showDemoCompletePopup();
                 return;
             }
-            
+
             // When all challenges are completed for a level, show the popup
             if (!gameState.isDemo && gameState.challengesCompleted >= gameState.totalChallenges) {
                 showLevelCompletePopup();
@@ -1512,10 +1518,10 @@
                     gameState.levelAttempts[gameState.difficulty].total++;
                     gameState.levelAttempts[gameState.difficulty].correct++;
 
-                    let points = (gameState.difficulty === 'easy') ? 10 : (gameState.difficulty === 'medium') ? 15 : 25;
-                    if (gameState.combo > 1) points += gameState.combo * 2;
-                    gameState.score += points;
-                    gameState.levelScores[gameState.difficulty] += points;
+                    // Add 5 points for every correct response
+                    gameState.score += 5;
+                    gameState.levelScores[gameState.difficulty] += 5;
+
                     if (gameState.combo > gameState.bestCombo) gameState.bestCombo = gameState.combo;
 
                     if (gameState.combo === 3) {
@@ -1620,6 +1626,22 @@
             }
         }
 
+        /* --- Calculate Time Bonus --- */
+        function calculateTimeBonus() {
+            const timeElapsed = (Date.now() - gameStartTime) / 1000;
+            if (timeElapsed <= 120) { // 2 minutes
+                return 25;
+            } else if (timeElapsed <= 180) { // 3 minutes
+                return 15;
+            } else if (timeElapsed <= 240) { // 4 minutes
+                return 10;
+            } else if (timeElapsed <= 300) { // 5 minutes
+                return 5;
+            } else {
+                return 0;
+            }
+        }
+
         /* --- Firebase Leaderboard update --- */
         function addOrUpdateLeaderboardEntry() {
             if (!userName || gameState.isDemo || gameState.totalAttempts === 0) {
@@ -1630,27 +1652,38 @@
             userRef.once('value', (snapshot) => {
                 let data = snapshot.val() || {
                     name: userName,
-                    scores: {},
-                    accuracy: {},
+                    scores: {
+                        easy: 0,
+                        medium: 0,
+                        complex: 0
+                    },
+                    accuracy: { easy: { correct: 0, total: 0 }, medium: { correct: 0, total: 0 }, complex: { correct: 0, total: 0 } },
                     totalScore: 0,
                     totalAccuracy: 0
                 };
                 
                 // Update scores and accuracy for the current difficulty
-                data.scores[gameState.difficulty] = (data.scores[gameState.difficulty] || 0) + gameState.score;
+                data.scores[gameState.difficulty] = gameState.levelScores[gameState.difficulty];
                 
                 // Accumulate attempts for overall accuracy calculation
-                data.accuracy[gameState.difficulty].correct += gameState.correctStows;
-                data.accuracy[gameState.difficulty].total += gameState.totalAttempts;
+                data.accuracy[gameState.difficulty].correct = gameState.levelAttempts[gameState.difficulty].correct;
+                data.accuracy[gameState.difficulty].total = gameState.levelAttempts[gameState.difficulty].total;
 
                 // Recalculate total score
-                data.totalScore = Object.values(data.scores).reduce((a, b) => a + b, 0);
+                let totalScoreSum = 0;
+                let totalCorrectSum = 0;
+                let totalAttemptsSum = 0;
+
+                for (const level in data.scores) {
+                    totalScoreSum += data.scores[level];
+                    totalCorrectSum += data.accuracy[level].correct;
+                    totalAttemptsSum += data.accuracy[level].total;
+                }
+                
+                data.totalScore = totalScoreSum + totalTimeBonus; // Add the final time bonus here
                 
                 // Calculate overall average accuracy based on total attempts
-                const totalCorrect = (data.accuracy.easy.correct || 0) + (data.accuracy.medium.correct || 0) + (data.accuracy.complex.correct || 0);
-                const totalAttempts = (data.accuracy.easy.total || 0) + (data.accuracy.medium.total || 0) + (data.accuracy.complex.total || 0);
-
-                data.totalAccuracy = (totalAttempts > 0) ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
+                data.totalAccuracy = (totalAttemptsSum > 0) ? Math.round((totalCorrectSum / totalAttemptsSum) * 100) : 0;
                 
                 userRef.set(data);
             });
@@ -1713,17 +1746,28 @@
 
         /* --- Level complete popup --- */
         function showLevelCompletePopup() {
+            if (gameState.isDemo) {
+                showDemoCompletePopup();
+                return;
+            }
+            
+            pauseGame();
+            addOrUpdateLeaderboardEntry();
+            
             document.getElementById('popup-message').textContent = `Successfully completed the ${gameState.difficulty} level!`;
             document.getElementById('level-complete-popup').style.display = 'block';
 
+            const nextLevelBtn = document.getElementById('btn-try-next');
+            const exitBtn = document.getElementById('btn-exit');
+
             // Hide the "next level" button if at the highest level
             if (gameState.difficulty === 'complex') {
-                document.getElementById('btn-try-next').style.display = 'none';
+                nextLevelBtn.style.display = 'none';
+                exitBtn.textContent = 'View Leaderboard';
             } else {
-                document.getElementById('btn-try-next').style.display = 'inline-block';
+                nextLevelBtn.style.display = 'inline-block';
+                exitBtn.textContent = 'Exit';
             }
-
-            pauseGame();
         }
 
         function closeLevelCompletePopup() {
@@ -1762,8 +1806,15 @@
             document.getElementById('start-btn').disabled = false;
             document.getElementById('pause-btn').disabled = true;
             document.getElementById('demo-btn').disabled = false;
+            
+            // This is where the time bonus will be calculated and applied at the very end of the game (once all levels are complete or time runs out)
+            const allLevelsCompleted = gameState.levelScores.easy > 0 && gameState.levelScores.medium > 0 && gameState.levelScores.complex > 0;
+            if (allLevelsCompleted || parseInt(globalTimerDisplay.textContent.split(':')[1]) <= 0) {
+                 totalTimeBonus = calculateTimeBonus();
+            }
 
             if (!gameState.isDemo) {
+                // If the game ends from the timer running out, we still want to save the score
                 addOrUpdateLeaderboardEntry();
             }
         }
@@ -1783,7 +1834,9 @@
         };
 
         document.getElementById('leaderboard-button').onclick = () => {
-            addOrUpdateLeaderboardEntry();
+            if (gameState.isActive && !gameState.isDemo) {
+                 addOrUpdateLeaderboardEntry();
+            }
 
             if (gameState.isActive) {
                 pauseGame();
@@ -1820,9 +1873,8 @@
             if (nextLevelIndex < difficulties.length) {
                 const nextLevel = difficulties[nextLevelIndex];
                 
-                // Save current level score before moving on
-                addOrUpdateLeaderboardEntry();
-
+                closeLevelCompletePopup();
+                
                 // Reset only the current game session's progress
                 gameState.score = 0;
                 gameState.accuracy = 100;
@@ -1834,18 +1886,15 @@
                 gameState.challengesCompleted = 0;
 
                 setDifficulty(nextLevel);
-                closeLevelCompletePopup();
                 
                 challengeTimerDisplay.textContent = `Challenge 1 of 5`;
                 scheduleNextProduct();
-            } else {
-                endGame();
-                showLevelCompletePopup(); // Display final level completion popup
             }
         };
 
         document.getElementById('btn-exit').onclick = () => {
             closeLevelCompletePopup();
+            endGame(); // This will save the final score with the bonus
             showLeaderboardScreen();
         };
 
@@ -1855,7 +1904,7 @@
 
         document.getElementById('btn-try-low-level').onclick = () => {
             closeDemoCompletePopup();
-            restartGame();
+            startGame();
         };
 
         document.getElementById('btn-exit-demo').onclick = () => {
